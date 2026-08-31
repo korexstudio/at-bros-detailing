@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { business } from "@/content";
 import { MotionPreferenceProvider } from "@/lib/motion";
+import { ServiceModeProvider } from "@/lib/service-mode";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileActionBar } from "@/components/MobileActionBar";
@@ -33,12 +34,14 @@ export default function RootLayout({
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="bg-base text-ink min-h-screen antialiased">
         <MotionPreferenceProvider>
-          <Header />
-          <main id="main" className="pt-16">
-            {children}
-          </main>
-          <Footer />
-          <MobileActionBar />
+          <ServiceModeProvider>
+            <Header />
+            <main id="main" className="pt-16">
+              {children}
+            </main>
+            <Footer />
+            <MobileActionBar />
+          </ServiceModeProvider>
         </MotionPreferenceProvider>
       </body>
     </html>
