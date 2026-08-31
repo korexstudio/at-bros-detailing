@@ -146,13 +146,16 @@ export function WashSequence() {
           const mid = frac > 0.004 && frac < 0.996;
           edge.style.left = `${frac * 100}%`;
           edge.style.opacity = mid ? "1" : "0";
-          // Copy crossfade + stage rail.
+          // Copy swap + stage rail. Sharp window: the outgoing block is fully
+          // gone before the incoming one appears — never two texts overlaid.
           STAGES.forEach((_, i) => {
-            const o = Math.min(1, Math.max(0, 1 - Math.abs(p - i)));
+            const d = Math.abs(p - i);
+            const o = Math.min(1, Math.max(0, (0.45 - d) / 0.2));
             const copy = copyRefs.current[i];
             if (copy) {
               copy.style.opacity = String(o);
               copy.style.visibility = o > 0.02 ? "visible" : "hidden";
+              copy.style.transform = `translateY(${(1 - o) * 14}px)`;
             }
             const dot = dotRefs.current[i];
             if (dot) {
