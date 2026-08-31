@@ -1,0 +1,52 @@
+/**
+ * A named placeholder for a real photo. Each slot says exactly which asset
+ * belongs in it, so filling the site with real work is a checklist, not a
+ * design task. Pass `src` to render the real image instead.
+ */
+export function ImageSlot({
+  label,
+  src,
+  alt = "",
+  aspect = "aspect-[3/2]",
+  className = "",
+  tone = "neutral",
+}: {
+  /** What real asset goes here, e.g. "Hero — best Finished Car glamour shot". */
+  label: string;
+  src?: string;
+  alt?: string;
+  aspect?: string;
+  className?: string;
+  tone?: "neutral" | "dirty" | "clean";
+}) {
+  if (src) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className={`${aspect} w-full rounded-xl object-cover ${className}`}
+      />
+    );
+  }
+
+  const toneClass =
+    tone === "dirty"
+      ? "from-[#3a342a] to-[#15130f]"
+      : tone === "clean"
+        ? "from-[#1a2027] to-[#0d1013]"
+        : "from-surface-raised to-base";
+
+  return (
+    <div
+      role="img"
+      aria-label={`Placeholder image: ${label}`}
+      className={`${aspect} flex w-full items-end rounded-xl border border-line bg-gradient-to-br p-4 ${toneClass} ${className}`}
+    >
+      <span className="rounded bg-base/70 px-2.5 py-1.5 text-xs text-ink-faint">
+        📷 {label}
+      </span>
+    </div>
+  );
+}
