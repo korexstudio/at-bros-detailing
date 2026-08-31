@@ -3,7 +3,10 @@
 Production deploys are **blocked** until every item below is done. Preview
 deployments are fine at any time. The gate is enforced by
 `scripts/check-launch-gate.mjs`, which runs before every build and fails the
-build when `VERCEL_ENV=production`.
+build when it would go live on the real domain: `VERCEL_ENV=production` AND
+a custom domain (not `*.vercel.app`) is assigned to the project. Until
+atbrosdetailing.com is attached, the default production alias is treated as
+a preview and only gets the report.
 
 ## The checklist
 
@@ -35,7 +38,7 @@ build when `VERCEL_ENV=production`.
 
 ```sh
 node scripts/check-launch-gate.mjs                    # report
-VERCEL_ENV=production node scripts/check-launch-gate.mjs  # what production sees
+LAUNCH_GATE_STRICT=1 VERCEL_ENV=production node scripts/check-launch-gate.mjs  # what a real launch sees
 ```
 
 When all items pass, promote to production (see `scripts/launch-wizard.sh`

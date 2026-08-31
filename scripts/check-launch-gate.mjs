@@ -59,7 +59,19 @@ for (const [flag, message] of Object.entries(approvalChecks)) {
   if (!approvals[flag]) failures.push(`${message} — flip "${flag}" in launch-approvals.json`);
 }
 
-const isProduction = process.env.VERCEL_ENV === "production";
+/**
+ * "Production" for the gate means LIVE ON THE REAL DOMAIN — not Vercel's
+ * default production alias of a fresh project (*.vercel.app), which is
+ * effectively a preview. Vercel exposes the production domain as
+ * VERCEL_PROJECT_PRODUCTION_URL; once a custom domain (atbrosdetailing.com)
+ * is assigned, that's what appears here and the gate arms itself.
+ * LAUNCH_GATE_STRICT=1 forces blocking regardless (used by the wizard).
+ */
+const prodUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "";
+const onCustomDomain = prodUrl !== "" && !prodUrl.endsWith(".vercel.app");
+const isProduction =
+  process.env.VERCEL_ENV === "production" &&
+  (onCustomDomain || process.env.LAUNCH_GATE_STRICT === "1");
 
 if (failures.length === 0) {
   console.log("Launch gate: all clear. Production is a go.");

@@ -81,7 +81,7 @@ fi
 # ---------------------------------------------------------------- Step 5
 step 5 "The launch gate"
 node scripts/check-launch-gate.mjs
-if VERCEL_ENV=production node scripts/check-launch-gate.mjs >/dev/null 2>&1; then
+if LAUNCH_GATE_STRICT=1 VERCEL_ENV=production node scripts/check-launch-gate.mjs >/dev/null 2>&1; then
   bold "  ✓ Launch gate clear — production is allowed"
 else
   echo "  ✗ The launch gate is closed (see docs/launch-gate.md)."
