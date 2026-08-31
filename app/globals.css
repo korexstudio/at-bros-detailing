@@ -27,6 +27,8 @@
   --color-slot-dirty-deep: #15130f;
   --color-slot-clean: #1a2027;
   --color-slot-clean-deep: #0d1013;
+  --color-slot-warm: #2a2018;
+  --color-slot-warm-deep: #120e0a;
 
   /* Type ramp */
   --font-display: var(--font-display, Georgia), Georgia, "Times New Roman", serif;

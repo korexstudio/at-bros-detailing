@@ -66,9 +66,12 @@ export function MotionLayer() {
           });
         }
 
-        // Text reveals as sections enter (full + lite).
+        // Text reveals as sections enter (full + lite). The wash sequence
+        // and reveal wipe drive their own opacity — leave them alone.
         gsap.utils
-          .toArray<HTMLElement>("[data-section] h2, [data-parallax='copy'] p")
+          .toArray<HTMLElement>(
+            "[data-section]:not([data-section='process']):not([data-section='showpiece']) h2, [data-parallax='copy'] p",
+          )
           .forEach((el) => {
             gsap.from(el, {
               y: 28,

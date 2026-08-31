@@ -4,11 +4,11 @@ import {
   BeforeAfterStrip,
   ClosingCta,
   Problem,
-  ProcessChapters,
   ServiceArea,
   ShowpieceSlot,
   WhyAtBros,
 } from "@/components/home/sections";
+import { WashSequence } from "@/components/home/WashSequence";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 
 /**
@@ -22,7 +22,7 @@ export default function Home() {
       <MotionLayer />
       <Hero />
       <Problem />
-      <ProcessChapters />
+      <WashSequence />
       <ShowpieceSlot />
       <BeforeAfterStrip />
       <ServicesOverview />
