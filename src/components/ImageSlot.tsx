@@ -10,6 +10,8 @@ export function ImageSlot({
   aspect = "aspect-[3/2]",
   className = "",
   tone = "neutral",
+  frameless = false,
+  eager = false,
 }: {
   /** What real asset goes here, e.g. "Hero — best Finished Car glamour shot". */
   label: string;
@@ -18,6 +20,10 @@ export function ImageSlot({
   aspect?: string;
   className?: string;
   tone?: "neutral" | "dirty" | "clean";
+  /** Full-bleed: no rounding or border (hero backdrop). */
+  frameless?: boolean;
+  /** Load immediately — for the LCP hero image only. */
+  eager?: boolean;
 }) {
   if (src) {
     return (
@@ -25,8 +31,11 @@ export function ImageSlot({
       <img
         src={src}
         alt={alt}
-        loading="lazy"
-        className={`${aspect} w-full rounded-xl object-cover ${className}`}
+        loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : undefined}
+        className={`${aspect} w-full object-cover ${
+          frameless ? "" : "rounded-xl"
+        } ${className}`}
       />
     );
   }

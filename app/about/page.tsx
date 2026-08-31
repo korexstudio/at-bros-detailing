@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { business, quoteRequestHref, squareBookingUrl } from "@/content";
 import { ImageSlot } from "@/components/ImageSlot";
+import { detectImage } from "@/lib/site-images";
 
 export const metadata: Metadata = {
   title: "About — the brothers behind the buckets",
@@ -46,7 +47,12 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-8">
-            <ImageSlot label="About — the brothers at work (candid, mid-detail)" />
+            {/* Drop-in: public/sections/about.jpg|png|webp. */}
+            <ImageSlot
+              label="About — the work up close (hands, foam, gear — no staged people)"
+              src={detectImage("sections/about") ?? undefined}
+              alt="Detailing work up close"
+            />
           </div>
         </div>
 

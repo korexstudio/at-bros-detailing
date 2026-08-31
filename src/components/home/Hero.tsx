@@ -1,6 +1,7 @@
 import { quoteRequestHref, squareBookingUrl, business } from "@/content";
 import { ImageSlot } from "@/components/ImageSlot";
 import { Wordmark } from "@/components/Wordmark";
+import { detectImage } from "@/lib/site-images";
 
 /**
  * The hero: a Finished Car, the wordmark, and the primary CTA.
@@ -15,10 +16,15 @@ export function Hero() {
     >
       <div className="absolute inset-0" data-hero-media>
         <div className="hero-drift h-full">
+          {/* Drop-in: public/hero/hero.jpg|png|webp (docs/stage-image-prompts.md). */}
           <ImageSlot
             label="Hero — the single best Finished Car glamour shot (dark car, low light)"
+            src={detectImage("hero/hero") ?? undefined}
+            alt=""
             aspect="h-full"
             tone="clean"
+            frameless
+            eager
             className="rounded-none border-0"
           />
         </div>

@@ -6,6 +6,7 @@ import {
   squareBookingUrl,
 } from "@/content";
 import { ImageSlot } from "@/components/ImageSlot";
+import { detectImage } from "@/lib/site-images";
 import { RevealWipe } from "./RevealWipe";
 
 /** Chapter 0: the problem. */
@@ -14,8 +15,11 @@ export function Problem() {
     <section data-section="problem" className="mx-auto max-w-6xl px-5 py-24 sm:px-8">
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div data-parallax="media">
+          {/* Drop-in: public/sections/problem.jpg|png|webp. */}
           <ImageSlot
             label="The problem — a genuinely dirty car (swirls, grime, dull paint)"
+            src={detectImage("sections/problem") ?? undefined}
+            alt="A car dulled by road grime and swirl marks"
             tone="dirty"
           />
         </div>
