@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens (ticket #3 hardens these): dark near-black base, one metallic
+ * accent, editorial display type with a clean grotesk for body.
+ * No hard-coded colors in components — everything routes through these tokens.
+ */
+@theme {
+  /* Base surfaces */
+  --color-base: #0b0b0d;
+  --color-surface: #131316;
+  --color-surface-raised: #1b1b20;
+  --color-line: #26262c;
+
+  /* Ink */
+  --color-ink: #ececec;
+  --color-ink-dim: #a3a3ab;
+  --color-ink-faint: #6b6b74;
+
+  /* Metallic accent (champagne — swapped for the logo's accent at launch) */
+  --color-accent: #c9a96a;
+  --color-accent-bright: #e3c98f;
+  --color-accent-dim: #8f7648;
+
+  /* Type ramp */
+  --font-display: var(--font-display, Georgia), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display-xl: clamp(2.75rem, 8vw, 6rem);
+  --text-display-lg: clamp(2rem, 5vw, 3.75rem);
+  --text-display-md: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+html {
+  background-color: var(--color-base);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-base);
+}
