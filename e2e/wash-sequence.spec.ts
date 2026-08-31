@@ -13,11 +13,11 @@ test.describe("Wash sequence", () => {
       .locator("[data-chapter]")
       .evaluateAll((els) => els.map((el) => el.getAttribute("data-chapter")));
     expect(stages).toEqual(["wash", "decontaminate", "protect", "interior"]);
-    // Every layer draws the car, dirty through interior.
-    const cars = await pinned
-      .locator("svg[data-car-scene]")
-      .evaluateAll((els) => els.map((el) => el.getAttribute("data-car-scene")));
-    expect(cars).toEqual(["dirty", "foam", "sealed", "interior"]);
+    // Every layer carries stage art (illustration or dropped-in photo).
+    const art = await pinned
+      .locator("[data-stage-art]")
+      .evaluateAll((els) => els.map((el) => el.getAttribute("data-stage-art")));
+    expect(art).toEqual(["dirty", "foam", "sealed", "interior"]);
   });
 
   test("scrolling advances the wipe and it scrubs back", async ({
@@ -27,6 +27,7 @@ test.describe("Wash sequence", () => {
     test.skip(isMobile, "mobile-lite gets stacked chapters");
     await page.goto("/");
     const pinned = page.getByTestId("wash-sequence-pinned");
+    await pinned.waitFor(); // hydration swaps the stacked variant for this one
     // Jump to the pin START (scrollIntoView would land mid-spacer, mid-scrub).
     await page.evaluate(() => {
       const spacer =
@@ -62,7 +63,7 @@ test.describe("Wash sequence", () => {
     await expect(page.getByTestId("wash-sequence-stacked")).toBeVisible();
     await expect(page.getByTestId("wash-sequence-pinned")).toHaveCount(0);
     await expect(
-      page.getByTestId("wash-sequence-stacked").locator("svg[data-car-scene]"),
+      page.getByTestId("wash-sequence-stacked").locator("[data-stage-art]"),
     ).toHaveCount(4);
     const stages = await page
       .locator("[data-chapter]")
@@ -70,9 +71,13 @@ test.describe("Wash sequence", () => {
     expect(stages).toEqual(["wash", "decontaminate", "protect", "interior"]);
   });
 
-  test("every stage layer names the still it needs", async ({ page }) => {
+  test("every stage art is labelled for assistive tech", async ({ page }) => {
     await page.goto("/");
-    const labels = page.getByText(/Still \d —/);
-    await expect(labels).toHaveCount(4);
+    const arts = page.locator("[data-stage-art]");
+    await expect(arts).toHaveCount(4);
+    for (let i = 0; i < 4; i += 1) {
+      const label = await arts.nth(i).getAttribute("aria-label");
+      expect(label ?? (await arts.nth(i).getAttribute("alt"))).toBeTruthy();
+    }
   });
 });
