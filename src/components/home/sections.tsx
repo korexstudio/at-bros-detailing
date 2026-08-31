@@ -2,9 +2,11 @@ import {
   business,
   galleryManifest,
   quoteRequestHref,
+  realBeforeAfters,
   squareBookingUrl,
 } from "@/content";
 import { ImageSlot } from "@/components/ImageSlot";
+import { RevealWipe } from "./RevealWipe";
 
 /** Chapter 0: the problem. */
 export function Problem() {
@@ -104,12 +106,17 @@ export function ProcessChapters() {
 }
 
 /**
- * The showpiece slot. Ticket #8 mounts the scroll-scrubbed reveal wipe here
- * once the manifest holds a real Before/After. Until then: an honest,
- * zero-height placeholder that never causes layout shift.
+ * The showpiece slot. The honesty gate: the scroll-scrubbed reveal wipe
+ * mounts only when the manifest holds at least one REAL Before/After pair.
+ * With none, the slot stays a zero-height div — no layout shift either way.
  */
 export function ShowpieceSlot() {
-  return <div data-section="showpiece-slot" aria-hidden />;
+  const pairs = realBeforeAfters();
+  return (
+    <div data-section="showpiece-slot">
+      {pairs.length > 0 ? <RevealWipe pair={pairs[0]} /> : null}
+    </div>
+  );
 }
 
 /** The Before/After strip, straight from the gallery manifest. */

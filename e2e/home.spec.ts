@@ -4,12 +4,11 @@ import { SQUARE_BOOKING_PAGE, business, sellableServices } from "../src/content"
 test.describe("Home — the Transformation narrative", () => {
   test("all sections render in order", async ({ page }) => {
     await page.goto("/");
-    const sections = page.locator("[data-section]");
-    await expect(sections).toHaveCount(9);
-    const order = await sections.evaluateAll((els) =>
-      els.map((el) => el.getAttribute("data-section")),
-    );
-    expect(order).toEqual([
+    const order = await page
+      .locator("[data-section]")
+      .evaluateAll((els) => els.map((el) => el.getAttribute("data-section")));
+    // "showpiece" appears nested in the slot once the manifest holds real pairs.
+    expect(order.filter((s) => s !== "showpiece")).toEqual([
       "hero",
       "problem",
       "process",
