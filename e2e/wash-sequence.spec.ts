@@ -13,6 +13,11 @@ test.describe("Wash sequence", () => {
       .locator("[data-chapter]")
       .evaluateAll((els) => els.map((el) => el.getAttribute("data-chapter")));
     expect(stages).toEqual(["wash", "decontaminate", "protect", "interior"]);
+    // Every layer draws the car, dirty through interior.
+    const cars = await pinned
+      .locator("svg[data-car-scene]")
+      .evaluateAll((els) => els.map((el) => el.getAttribute("data-car-scene")));
+    expect(cars).toEqual(["dirty", "foam", "sealed", "interior"]);
   });
 
   test("scrolling advances the wipe and it scrubs back", async ({
@@ -56,6 +61,9 @@ test.describe("Wash sequence", () => {
     await page.goto("/");
     await expect(page.getByTestId("wash-sequence-stacked")).toBeVisible();
     await expect(page.getByTestId("wash-sequence-pinned")).toHaveCount(0);
+    await expect(
+      page.getByTestId("wash-sequence-stacked").locator("svg[data-car-scene]"),
+    ).toHaveCount(4);
     const stages = await page
       .locator("[data-chapter]")
       .evaluateAll((els) => els.map((el) => el.getAttribute("data-chapter")));

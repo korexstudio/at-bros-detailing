@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useMotionPreference } from "@/lib/motion";
+import { CarScene, type CarStage } from "./CarScene";
 
 /**
  * The scroll-driven wash: ONE pinned frame of the same car, wiped through
@@ -15,7 +16,9 @@ import { useMotionPreference } from "@/lib/motion";
  * Reduced motion / mobile-lite get calm stacked chapters instead.
  */
 interface Stage {
-  id: string;
+  id: "wash" | "decontaminate" | "protect" | "interior";
+  /** Which car treatment this stage shows. */
+  car: CarStage;
   kicker: string;
   title: string;
   body: string;
@@ -28,6 +31,7 @@ interface Stage {
 const STAGES: Stage[] = [
   {
     id: "wash",
+    car: "dirty",
     kicker: "Stage one",
     title: "Dirty",
     body: "Sun, freeway fallout, tunnel-wash swirls. This is where every car we touch starts.",
@@ -37,6 +41,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "decontaminate",
+    car: "foam",
     kicker: "Stage two",
     title: "Foam & decontaminate",
     body: "High-alkaline foam lifts the grime without touching the paint; iron remover dissolves what's bonded in.",
@@ -46,6 +51,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "protect",
+    car: "sealed",
     kicker: "Stage three",
     title: "Sealed",
     body: "Ceramic sealant locks the finish under a sacrificial layer — water beads and rolls for months.",
@@ -55,6 +61,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "interior",
+    car: "interior",
     kicker: "Stage four",
     title: "Inside too",
     body: "Deep vacuum, compressed air in the seams, conditioner bringing plastics and leather back to OEM matte.",
@@ -76,12 +83,11 @@ function StackedChapters() {
         >
           <div className="grid w-full items-center gap-10 md:grid-cols-2">
             <div
-              role="img"
-              aria-label={`Placeholder image: ${stage.shot}`}
-              className="flex aspect-[4/3] w-full items-end rounded-xl border border-line p-4"
+              className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-xl border border-line p-4"
               style={{ background: stage.background }}
             >
-              <span className="rounded bg-base/70 px-2.5 py-1.5 text-xs text-ink-faint">
+              <CarScene stage={stage.car} className="w-[92%]" />
+              <span className="absolute bottom-3 left-3 rounded bg-base/70 px-2.5 py-1.5 text-xs text-ink-faint">
                 📷 {stage.shot}
               </span>
             </div>
@@ -209,6 +215,14 @@ export function WashSequence() {
               clipPath: i === 0 ? "none" : "inset(0 100% 0 0)",
             }}
           >
+            {/* The car — identical position in every layer, so the wipe
+                washes it part by part. */}
+            <div className="absolute inset-x-0 bottom-[34%] top-[10%] flex items-center justify-center">
+              <CarScene
+                stage={stage.car}
+                className="max-h-full w-[min(80vw,980px)]"
+              />
+            </div>
             <span className="absolute right-4 top-20 rounded bg-base/70 px-2.5 py-1.5 text-xs text-ink-faint">
               📷 {stage.shot}
             </span>
