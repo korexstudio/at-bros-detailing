@@ -47,6 +47,9 @@ export default function RootLayout({
             __html: JSON.stringify(localBusinessJsonLd()),
           }}
         />
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <MotionPreferenceProvider>
           <ServiceModeProvider>
             <Header />
