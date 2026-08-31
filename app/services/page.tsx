@@ -3,7 +3,9 @@ import Link from "next/link";
 import { formatPrice, priceFor, sellableServices } from "@/content";
 
 export const metadata: Metadata = {
-  title: "Services & Pricing",
+  title: "Car Detailing Services & Pricing — 626 / San Gabriel Valley",
+  description:
+    "Every AT Bros Detailing Service with straight prices: exterior, interior, clay & seal, paint enhancement, and more. Mobile or drop-off across the San Gabriel Valley.",
 };
 
 export default function ServicesIndex() {
