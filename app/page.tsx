@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/Hero";
+import { MotionLayer } from "@/components/home/MotionLayer";
 import {
   BeforeAfterStrip,
   ClosingCta,
@@ -18,6 +19,7 @@ import { ServicesOverview } from "@/components/home/ServicesOverview";
 export default function Home() {
   return (
     <>
+      <MotionLayer />
       <Hero />
       <Problem />
       <ProcessChapters />

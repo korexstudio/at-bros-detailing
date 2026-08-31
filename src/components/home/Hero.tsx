@@ -14,12 +14,17 @@ export function Hero() {
       className="relative flex min-h-[92svh] items-end overflow-hidden"
     >
       <div className="absolute inset-0" data-hero-media>
-        <ImageSlot
-          label="Hero — the single best Finished Car glamour shot (dark car, low light)"
-          aspect="h-full"
-          tone="clean"
-          className="rounded-none border-0"
-        />
+        <div className="hero-drift h-full">
+          <ImageSlot
+            label="Hero — the single best Finished Car glamour shot (dark car, low light)"
+            aspect="h-full"
+            tone="clean"
+            className="rounded-none border-0"
+          />
+        </div>
+        {/* Specular light sweep + film grain — pure CSS, gated by html[data-motion]. */}
+        <div aria-hidden className="hero-sweep" />
+        <div aria-hidden className="hero-grain" />
         <div className="absolute inset-0 bg-gradient-to-t from-base via-base/40 to-base/10" />
       </div>
 
