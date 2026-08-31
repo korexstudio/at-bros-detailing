@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Fraunces, Inter } from "next/font/google";
 import { business } from "@/content";
 import { SITE_URL, localBusinessJsonLd } from "@/content/seo";
@@ -60,6 +61,8 @@ export default function RootLayout({
             <MobileActionBar />
           </ServiceModeProvider>
         </MotionPreferenceProvider>
+        {/* Cookieless page analytics — no consent banner needed. */}
+        <Analytics />
       </body>
     </html>
   );
