@@ -111,7 +111,7 @@ export const services: Service[] = [
     pitch:
       "Decontaminate to glassy-smooth, then seal it — includes the full Exterior Detail.",
     description: [
-      "This package includes the full Exterior Detail. If you've washed your car, run your hand across the paint, and felt sandpaper — this is the fix. The air carries specks of iron and other contaminants that bond to your paint as you drive; over time those ferrous deposits can rust, turn unsightly, and can't be removed except by mechanical polish or a repaint.",
+      "This Service includes the full Exterior Detail. If you've washed your car, run your hand across the paint, and felt sandpaper — this is the fix. The air carries specks of iron and other contaminants that bond to your paint as you drive; over time those ferrous deposits can rust, turn unsightly, and can't be removed except by mechanical polish or a repaint.",
       "We start with a chemical decontamination: iron remover dissolves the bulk of the embedded contamination. Then, depending on history, a clay bar (never been clayed) or a clay towel (newer paint) pulls out the rest — returning the paint to glassy-smooth, straight back to an OEM-like feel.",
       "We finish with a ceramic sealant rated to last 3–6 months. When you notice significantly less beading, that sacrificial layer is running low — time to clay again.",
     ],

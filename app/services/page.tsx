@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { formatPrice, priceFor, sellableServices } from "@/content";
+import { sellableServices, startingPrice } from "@/content";
 
 export const metadata: Metadata = {
   title: "Car Detailing Services & Pricing — 626 / San Gabriel Valley",
@@ -27,7 +27,7 @@ export default function ServicesIndex() {
                 <span className="mt-1 block text-sm text-ink-dim">{s.pitch}</span>
               </span>
               <span className="shrink-0 text-sm text-ink-dim group-hover:text-accent">
-                from {formatPrice(priceFor(s, "sedan", "mobile"))}
+                from {startingPrice(s)}
               </span>
             </Link>
           </li>

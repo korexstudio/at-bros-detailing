@@ -12,7 +12,10 @@ build when `VERCEL_ENV=production`.
       Then derive the accent color from it in `app/globals.css` (`--color-accent`).
 - [ ] **At least three real Before/After pairs** — export the photos into
       `public/gallery/`, register them in `src/content/gallery.ts` with
-      `isPlaceholder: false`, and delete the placeholder entries.
+      `isPlaceholder: false`, and delete the placeholder entries. Export
+      real photos as AVIF or WebP sized close to their largest rendered
+      width (~1600px) — the placeholders are SVGs, so format discipline
+      starts when real rasters land.
 - [ ] **Founder story supplied** — replace the placeholder block in
       `app/about/page.tsx` with the owner's story, then flip
       `founderStorySupplied` in `launch-approvals.json`.

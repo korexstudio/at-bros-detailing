@@ -137,12 +137,17 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
         <div
           ref={edgeRef}
           aria-hidden
-          className="absolute inset-y-0 w-[2px] bg-accent shadow-[0_0_28px_6px_rgba(201,169,106,0.45)] transition-opacity"
-          style={{ left: "0%", opacity: 0 }}
+          className="absolute inset-y-0 w-[2px] bg-accent transition-opacity"
+          style={{
+            left: "0%",
+            opacity: 0,
+            boxShadow:
+              "0 0 28px 6px color-mix(in srgb, var(--color-accent) 45%, transparent)",
+          }}
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-base to-transparent pb-16 pt-24 text-center">
           <p className="text-xs uppercase tracking-[0.3em] text-accent">
-            The transformation
+            Before / After
           </p>
           <p className="font-display mt-2 text-display-md">Keep scrolling.</p>
         </div>

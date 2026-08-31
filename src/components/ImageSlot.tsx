@@ -33,9 +33,9 @@ export function ImageSlot({
 
   const toneClass =
     tone === "dirty"
-      ? "from-[#3a342a] to-[#15130f]"
+      ? "from-slot-dirty to-slot-dirty-deep"
       : tone === "clean"
-        ? "from-[#1a2027] to-[#0d1013]"
+        ? "from-slot-clean to-slot-clean-deep"
         : "from-surface-raised to-base";
 
   return (

@@ -25,7 +25,7 @@ export default function GalleryPage() {
           data-section="before-afters"
           className="mx-auto mt-12 max-w-6xl px-5 sm:px-8"
         >
-          <h2 className="sr-only">Before and after comparisons</h2>
+          <h2 className="sr-only">Before/After pairs</h2>
           <div className="grid gap-8 md:grid-cols-2">
             {beforeAfters.map((pair) => (
               <CompareSlider key={pair.id} pair={pair} />

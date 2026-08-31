@@ -5,12 +5,11 @@ import { PriceBlock } from "@/components/PriceBlock";
 import {
   addOnsFor,
   business,
-  formatPrice,
-  priceFor,
   quoteRequestHref,
   sellableServices,
   serviceBySlug,
   squareBookingUrl,
+  startingPrice,
   type Service,
 } from "@/content";
 
@@ -42,7 +41,7 @@ function RelatedCard({ service }: { service: Service }) {
       </span>
       <span className="mt-1 block text-sm text-ink-dim">{service.pitch}</span>
       <span className="mt-3 block text-sm text-accent">
-        from {formatPrice(priceFor(service, "sedan", "mobile"))}
+        from {startingPrice(service)}
       </span>
     </Link>
   );
@@ -143,8 +142,7 @@ export default async function ServicePage({
               <div className="flex flex-wrap items-baseline justify-between gap-3">
                 <span className="font-display text-xl">{addOn.name}</span>
                 <span className="text-accent">
-                  +{formatPrice(priceFor(addOn, "sedan", "mobile"))} ·{" "}
-                  {addOn.duration.label}
+                  +{startingPrice(addOn)} · {addOn.duration.label}
                 </span>
               </div>
               <p className="mt-2 max-w-prose text-sm text-ink-dim">{addOn.pitch}</p>

@@ -1,10 +1,9 @@
 import { ImageResponse } from "next/og";
 import {
   business,
-  formatPrice,
-  priceFor,
   sellableServices,
   serviceBySlug,
+  startingPrice,
 } from "@/content";
 
 export const size = { width: 1200, height: 630 };
@@ -22,7 +21,7 @@ export default async function OpengraphImage({
   const service = serviceBySlug((await params).slug);
   const name = service?.name ?? business.name;
   const price = service
-    ? `from ${formatPrice(priceFor(service, "sedan", "mobile"))} · ${service.duration.label}`
+    ? `from ${startingPrice(service)} · ${service.duration.label}`
     : "";
 
   return new ImageResponse(

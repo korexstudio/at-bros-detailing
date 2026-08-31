@@ -41,6 +41,24 @@ describe("copy hygiene", () => {
   });
 });
 
+describe("launch-gate parser stays honest", () => {
+  it("the gate script's source-regex count matches realBeforeAfters()", async () => {
+    // scripts/check-launch-gate.mjs cannot import TS, so it regex-counts
+    // real pairs in gallery.ts source. This test pins the two together:
+    // refactor gallery.ts in a way that breaks the regex and this fails.
+    const { readFileSync } = await import("node:fs");
+    const source = readFileSync(
+      path.resolve(__dirname, "./gallery.ts"),
+      "utf8",
+    );
+    const beforeAftersSection = source.split("finishedCars")[0];
+    const parsedCount = (beforeAftersSection.match(/isPlaceholder:\s*false/g) ?? [])
+      .length;
+    const { realBeforeAfters } = await import("./gallery");
+    expect(parsedCount).toBe(realBeforeAfters().length);
+  });
+});
+
 describe("business facts", () => {
   it("carries hours for all seven days", () => {
     expect(business.hours).toHaveLength(7);

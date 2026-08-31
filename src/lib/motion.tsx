@@ -4,9 +4,19 @@ import {
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
   useState,
   type ReactNode,
 } from "react";
+
+/**
+ * useLayoutEffect on the client so the real preference is resolved BEFORE
+ * the browser paints after hydration — the "reduced" server assumption never
+ * flashes and swapping variants (e.g. the reveal wipe) causes no visible
+ * layout shift. Falls back to useEffect during SSR to avoid React's warning.
+ */
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * The motion-preference gate. Every animation on the site consults this —
@@ -37,7 +47,7 @@ export function MotionPreferenceProvider({ children }: { children: ReactNode }) 
   // Server render assumes "reduced" so no effect ever flashes before hydration.
   const [preference, setPreference] = useState<MotionPreference>("reduced");
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const update = () => setPreference(resolvePreference());
     update();
     const queries = [window.matchMedia(REDUCED_QUERY), window.matchMedia(LITE_QUERY)];

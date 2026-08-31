@@ -22,6 +22,12 @@
   --color-accent-bright: #e3c98f;
   --color-accent-dim: #8f7648;
 
+  /* Placeholder image-slot art (dies when real photos land) */
+  --color-slot-dirty: #3a342a;
+  --color-slot-dirty-deep: #15130f;
+  --color-slot-clean: #1a2027;
+  --color-slot-clean-deep: #0d1013;
+
   /* Type ramp */
   --font-display: var(--font-display, Georgia), Georgia, "Times New Roman", serif;
   --font-body: var(--font-body, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;

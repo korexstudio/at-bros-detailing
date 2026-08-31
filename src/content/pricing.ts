@@ -37,3 +37,11 @@ export function priceFor(
 export function formatPrice(result: PriceResult): string {
   return result.kind === "price" ? `$${result.amount}` : "Quoted";
 }
+
+/**
+ * The "from" price shown on cards, indexes, and OG images:
+ * sedan, Mobile — the one combination every Service prices.
+ */
+export function startingPrice(service: Service): string {
+  return formatPrice(priceFor(service, "sedan", "mobile"));
+}
