@@ -9,7 +9,8 @@ import { useMotionPreference } from "@/lib/motion";
  *
  * Everything routes through the motion-preference gate:
  * - "reduced": this component only stamps html[data-motion] and stops.
- * - "lite":    text reveals only — no smooth scroll, no parallax.
+ * - "lite":    text reveals only — no smooth scroll, no parallax. (The wash
+ *              sequence and reveal wipe gate themselves and stay on.)
  * - "full":    the whole show.
  *
  * The gate value is mirrored to <html data-motion> so pure-CSS effects

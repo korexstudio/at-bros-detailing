@@ -10,9 +10,10 @@ import { CompareSlider } from "@/components/CompareSlider";
  * across a real Before/After — the transformation happening under their
  * thumb. Pinned for the section's duration, scrubbed forward and backward.
  *
- * Under reduced motion or mobile-lite it degrades to the Gallery's manual
- * compare slider. It is only mounted at all when the manifest holds a real
- * pair (the honesty gate lives in the server component that renders this).
+ * Runs under "full" and "lite" (phones); under reduced motion it degrades
+ * to the Gallery's manual compare slider. It is only mounted at all when
+ * the manifest holds a real pair (the honesty gate lives in the server
+ * component that renders this).
  */
 export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
   const preference = useMotionPreference();
@@ -21,7 +22,7 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
   const edgeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (preference !== "full") return;
+    if (preference === "reduced") return;
     const root = rootRef.current;
     const after = afterRef.current;
     const edge = edgeRef.current;
@@ -37,6 +38,7 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
       ]);
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
+      ScrollTrigger.config({ ignoreMobileResize: true });
 
       const ctx = gsap.context(() => {
         const progress = { value: 0 };
@@ -84,7 +86,7 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
   }, [preference]);
 
   // Calm fallback: the manual compare slider.
-  if (preference !== "full") {
+  if (preference === "reduced") {
     return (
       <section
         data-section="showpiece"

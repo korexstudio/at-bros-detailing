@@ -23,7 +23,9 @@ const useIsoLayoutEffect =
  * nothing animates without asking.
  *
  * - "reduced": the visitor asked for reduced motion. Effects off.
- * - "lite":    small viewport / data-saver. Calm, cheap motion only.
+ * - "lite":    small viewport / data-saver. No smooth scroll or parallax;
+ *              the scroll-scrubbed pins (wash sequence, reveal wipe) stay on,
+ *              since they are cheap clip-path wipes driven by native scroll.
  * - "full":    the whole show.
  */
 export type MotionPreference = "full" | "lite" | "reduced";

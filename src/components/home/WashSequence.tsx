@@ -12,7 +12,12 @@ import { StageSurface, type StageArt } from "./StageSurface";
  *
  * Each layer shows either a real stage photo (dropped into public/stages/,
  * detected server-side and passed via `images`) or the macro StageSurface
- * illustration. Reduced motion / mobile-lite get calm stacked chapters.
+ * illustration.
+ *
+ * Runs under "full" and "lite" (phones): the scrub is four compositor-cheap
+ * clip-path wipes driven by native scroll, so it needs neither Lenis nor a
+ * wide screen. Lite gets a shorter pin (less thumb travel). Reduced motion
+ * gets calm stacked chapters.
  */
 export type StageId = "wash" | "decontaminate" | "protect" | "interior";
 
@@ -136,10 +141,12 @@ export function WashSequence({ images = NO_IMAGES }: { images?: StageImages }) {
   const edgeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (preference !== "full") return;
+    if (preference === "reduced") return;
     const root = rootRef.current;
     const edge = edgeRef.current;
     if (!root || !edge) return;
+    // Pin length as a multiple of the viewport: less thumb travel on phones.
+    const pinDistance = preference === "lite" ? "+=240%" : "+=350%";
 
     let cancelled = false;
     let cleanup: (() => void) | undefined;
@@ -151,6 +158,9 @@ export function WashSequence({ images = NO_IMAGES }: { images?: StageImages }) {
       ]);
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
+      // Mobile browsers resize the viewport as the address bar collapses;
+      // recalculating the pin on every one of those makes it jump mid-scrub.
+      ScrollTrigger.config({ ignoreMobileResize: true });
 
       const ctx = gsap.context(() => {
         const transitions = STAGES.length - 1; // 3
@@ -197,7 +207,7 @@ export function WashSequence({ images = NO_IMAGES }: { images?: StageImages }) {
           scrollTrigger: {
             trigger: root,
             start: "top top",
-            end: "+=350%",
+            end: pinDistance,
             pin: true,
             scrub: 0.4,
             anticipatePin: 1,
@@ -214,7 +224,7 @@ export function WashSequence({ images = NO_IMAGES }: { images?: StageImages }) {
     };
   }, [preference]);
 
-  if (preference !== "full") return <StackedChapters images={images} />;
+  if (preference === "reduced") return <StackedChapters images={images} />;
 
   return (
     <section data-section="process" data-testid="wash-sequence-pinned">
@@ -248,9 +258,9 @@ export function WashSequence({ images = NO_IMAGES }: { images?: StageImages }) {
         />
 
         {/* Copy, swapping per stage. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-base via-base/70 to-transparent pb-16 pt-32">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-base via-base/70 to-transparent pb-20 pt-32 sm:pb-16">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="relative min-h-40 max-w-xl">
+            <div className="relative min-h-44 max-w-xl sm:min-h-40">
               {STAGES.map((stage, i) => (
                 <div
                   key={stage.id}
@@ -269,7 +279,9 @@ export function WashSequence({ images = NO_IMAGES }: { images?: StageImages }) {
                   <h2 className="font-display mt-2 text-display-lg leading-tight">
                     {stage.title}
                   </h2>
-                  <p className="mt-3 leading-relaxed text-ink-dim">{stage.body}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-dim sm:text-base">
+                    {stage.body}
+                  </p>
                 </div>
               ))}
             </div>

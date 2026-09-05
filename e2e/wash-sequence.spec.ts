@@ -1,11 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Wash sequence", () => {
-  test("desktop full-motion gets the pinned scrub with all four stages", async ({
+  test("full and lite motion get the pinned scrub with all four stages", async ({
     page,
-    isMobile,
   }) => {
-    test.skip(isMobile, "mobile-lite gets stacked chapters");
     await page.goto("/");
     const pinned = page.getByTestId("wash-sequence-pinned");
     await expect(pinned).toBeVisible();
@@ -20,11 +18,7 @@ test.describe("Wash sequence", () => {
     expect(art).toEqual(["dirty", "foam", "sealed", "interior"]);
   });
 
-  test("scrolling advances the wipe and it scrubs back", async ({
-    page,
-    isMobile,
-  }) => {
-    test.skip(isMobile, "mobile-lite gets stacked chapters");
+  test("scrolling advances the wipe and it scrubs back", async ({ page }) => {
     await page.goto("/");
     const pinned = page.getByTestId("wash-sequence-pinned");
     await pinned.waitFor(); // hydration swaps the stacked variant for this one
@@ -46,15 +40,44 @@ test.describe("Wash sequence", () => {
     // (Essentially) fully clipped at the pin start.
     expect(await clippedPercent()).toBeGreaterThan(98);
 
-    // Scrub forward: the wipe advances well past the start.
-    await page.mouse.wheel(0, 3500);
+    // Scrub forward: the wipe advances well past the start. (window.scrollBy
+    // rather than mouse.wheel so the mobile project, which has no mouse,
+    // drives the same native-scroll path ScrollTrigger listens to.)
+    await page.evaluate(() => window.scrollBy(0, 3500));
     await expect.poll(clippedPercent).toBeLessThan(90);
 
     // Scrub back to the top: fully clipped again.
-    await page.mouse.wheel(0, -20000);
+    await page.evaluate(() => window.scrollTo(0, 0));
     await expect
       .poll(clippedPercent, { timeout: 10_000 })
       .toBeGreaterThan(98);
+  });
+
+  test("mobile lite pins too, with a shorter scrub and no smooth scroll", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(!isMobile, "mobile-only assertion");
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-motion", "lite");
+    await expect(page.locator("html")).not.toHaveAttribute("data-smooth-scroll", "on");
+    const pinned = page.getByTestId("wash-sequence-pinned");
+    await expect(pinned).toBeVisible();
+    await expect(page.getByTestId("wash-sequence-stacked")).toHaveCount(0);
+    // ScrollTrigger's pin spacer is the scrub's scroll budget: viewport +
+    // the "+=240%" lite distance, well short of the desktop "+=350%".
+    const spacer = page.locator(".pin-spacer").first();
+    await spacer.waitFor();
+    const ratio = await spacer.evaluate(
+      (el) => el.getBoundingClientRect().height / window.innerHeight,
+    );
+    expect(ratio).toBeGreaterThan(3.2);
+    expect(ratio).toBeLessThan(3.6);
+    // No horizontal overflow from the pinned frame at phone width.
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
   });
 
   test("reduced motion gets stacked chapters, no pin", async ({ page }) => {

@@ -39,9 +39,8 @@ test.describe("Reveal-wipe showpiece — honesty gate", () => {
     await expect(page.getByTestId("reveal-wipe")).toHaveCount(0);
   });
 
-  test("full motion mounts the scrubbed wipe", async ({ page, isMobile }) => {
+  test("full and lite motion mount the scrubbed wipe", async ({ page }) => {
     test.skip(!hasRealPairs, "showpiece only mounts with real pairs");
-    test.skip(isMobile, "mobile-lite uses the fallback");
     await page.goto("/");
     await expect(page.getByTestId("reveal-wipe")).toBeVisible();
   });
