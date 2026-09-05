@@ -10,9 +10,13 @@ a preview and only gets the report.
 
 ## The checklist
 
-- [ ] **Real logo in place** — drop the file at `public/brand/logo.svg` (or
+- [x] **Real logo in place** — drop the file at `public/brand/logo.svg` (or
       `.png`). The Wordmark component picks it up everywhere automatically.
       Then derive the accent color from it in `app/globals.css` (`--color-accent`).
+      _Done 2026-09-05: badge knocked out to a cream monochrome for the dark
+      base (source kept at `docs/brand/logo-original.png`); accent is now the
+      logo's steel blue. A vector or transparent master from the designer
+      would still sharpen the header icon._
 - [x] **At least three real Before/After pairs** — export the photos into
       `public/gallery/`, register them in `src/content/gallery.ts` with
       `isPlaceholder: false`, and delete the placeholder entries. Export

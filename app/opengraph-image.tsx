@@ -26,7 +26,7 @@ export default function OpengraphImage() {
             fontSize: 30,
             letterSpacing: 10,
             textTransform: "uppercase",
-            color: "#c9a96a",
+            color: "#84a3bd",
           }}
         >
           AT Bros Detailing

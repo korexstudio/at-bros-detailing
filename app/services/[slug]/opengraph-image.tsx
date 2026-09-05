@@ -44,14 +44,14 @@ export default async function OpengraphImage({
             fontSize: 30,
             letterSpacing: 10,
             textTransform: "uppercase",
-            color: "#c9a96a",
+            color: "#84a3bd",
           }}
         >
           AT Bros Detailing · the 626
         </div>
         <div style={{ fontSize: 84, marginTop: 20, lineHeight: 1.05 }}>{name}</div>
         {price ? (
-          <div style={{ fontSize: 36, marginTop: 24, color: "#c9a96a" }}>
+          <div style={{ fontSize: 36, marginTop: 24, color: "#84a3bd" }}>
             {price}
           </div>
         ) : null}

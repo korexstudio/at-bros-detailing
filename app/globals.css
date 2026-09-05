@@ -17,10 +17,11 @@
   --color-ink-dim: #a3a3ab;
   --color-ink-faint: #6b6b74;
 
-  /* Metallic accent (champagne — swapped for the logo's accent at launch) */
-  --color-accent: #c9a96a;
-  --color-accent-bright: #e3c98f;
-  --color-accent-dim: #8f7648;
+  /* Accent: the logo's steel blue (ring) with its navy (lettering) as the
+     dim variant. Sampled from docs/brand/logo-original.png. */
+  --color-accent: #84a3bd;
+  --color-accent-bright: #a9c1d6;
+  --color-accent-dim: #4f6f90;
 
   /* Placeholder image-slot art (dies when real photos land) */
   --color-slot-dirty: #3a342a;
