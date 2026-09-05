@@ -68,7 +68,9 @@ export function BeforeAfterStrip() {
         Same car. Same day.
       </h2>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
-        {pairs.map((pair) => (
+        {pairs.map((pair) => {
+          const aspect = pair.aspect === "portrait" ? "aspect-[4/5]" : "aspect-[3/2]";
+          return (
           <figure key={pair.id} className="grid grid-cols-2 gap-2">
             <div className="relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -76,7 +78,7 @@ export function BeforeAfterStrip() {
                 src={pair.before}
                 alt={`Before — ${pair.alt}`}
                 loading="lazy"
-                className="aspect-[3/2] w-full rounded-l-xl object-cover"
+                className={`${aspect} w-full rounded-l-xl object-cover`}
               />
               <span className="absolute left-2 top-2 rounded bg-base/70 px-2 py-0.5 text-xs text-ink-dim">
                 Before
@@ -88,7 +90,7 @@ export function BeforeAfterStrip() {
                 src={pair.after}
                 alt={`After — ${pair.alt}`}
                 loading="lazy"
-                className="aspect-[3/2] w-full rounded-r-xl object-cover"
+                className={`${aspect} w-full rounded-r-xl object-cover`}
               />
               <span className="absolute right-2 top-2 rounded bg-accent/80 px-2 py-0.5 text-xs font-medium text-base">
                 After
@@ -100,7 +102,8 @@ export function BeforeAfterStrip() {
               </figcaption>
             )}
           </figure>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

@@ -91,6 +91,11 @@ export interface BeforeAfterPair {
   after: string;
   alt: string;
   service: GalleryService;
+  /**
+   * Frame shape for the compare sliders. Phone shots are "portrait";
+   * omitted means landscape (3:2).
+   */
+  aspect?: "portrait" | "landscape";
   /** Placeholder entries never count as real work and are clearly marked in the UI. */
   isPlaceholder: boolean;
 }

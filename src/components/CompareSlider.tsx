@@ -13,10 +13,13 @@ import type { BeforeAfterPair } from "@/content";
 export function CompareSlider({ pair }: { pair: BeforeAfterPair }) {
   const [percent, setPercent] = useState(50);
   const id = useId();
+  const aspect = pair.aspect === "portrait" ? "aspect-[4/5]" : "aspect-[3/2]";
 
   return (
     <figure data-testid="compare-slider" className="group">
-      <div className="relative aspect-[3/2] w-full select-none overflow-hidden rounded-xl border border-line">
+      <div
+        className={`relative ${aspect} w-full select-none overflow-hidden rounded-xl border border-line`}
+      >
         {/* Before fills the frame. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

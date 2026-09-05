@@ -13,7 +13,7 @@ a preview and only gets the report.
 - [ ] **Real logo in place** — drop the file at `public/brand/logo.svg` (or
       `.png`). The Wordmark component picks it up everywhere automatically.
       Then derive the accent color from it in `app/globals.css` (`--color-accent`).
-- [ ] **At least three real Before/After pairs** — export the photos into
+- [x] **At least three real Before/After pairs** — export the photos into
       `public/gallery/`, register them in `src/content/gallery.ts` with
       `isPlaceholder: false`, and delete the placeholder entries. Export
       real photos as AVIF or WebP sized close to their largest rendered
