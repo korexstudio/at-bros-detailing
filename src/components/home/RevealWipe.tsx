@@ -106,47 +106,82 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
     );
   }
 
+  // The showpiece sits far below the fold: its photos must never compete
+  // with the hero for bandwidth (fetchPriority low), but they stay eager so
+  // the scrub never reveals a half-loaded frame.
+  // Portrait pairs (phone shots) must not be stretched full-bleed across a
+  // landscape viewport: a ~1000px-wide photo upscaled to 1440+ and cropped to
+  // a band is the blur the owner will notice first. On landscape viewports
+  // the frame becomes a centred 4:5 column at viewport height, over a soft
+  // blurred backdrop of the same shot; on portrait viewports (phones) it
+  // stays full-bleed, where the shapes already match.
+  const portrait = pair.aspect === "portrait";
+  const frameClass = portrait
+    ? "relative overflow-hidden portrait:absolute portrait:inset-0 landscape:h-[86svh] landscape:aspect-[4/5] landscape:max-w-full landscape:rounded-xl landscape:border landscape:border-line"
+    : "absolute inset-0 overflow-hidden";
+
   return (
     <section data-section="showpiece" data-testid="reveal-wipe">
       <div ref={rootRef} className="relative h-svh overflow-hidden">
-        {/* Before layer */}
-        <div data-wipe-parallax className="absolute inset-[-4%]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+        {portrait && (
+          // Landscape-only backdrop behind the column.
+          // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={pair.before}
-            alt={`Before — ${pair.alt}`}
-            className="h-full w-full object-cover"
+            src={pair.after}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 hidden h-full w-full scale-110 object-cover opacity-25 blur-2xl landscape:block"
+            fetchPriority="low"
+            decoding="async"
             draggable={false}
           />
-        </div>
-        {/* After layer, clipped by scroll progress */}
-        <div
-          ref={afterRef}
-          className="absolute inset-0"
-          style={{ clipPath: "inset(0 100% 0 0)" }}
-        >
-          <div data-wipe-parallax className="absolute inset-[-4%]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={pair.after}
-              alt={`After — ${pair.alt}`}
-              className="h-full w-full object-cover"
-              draggable={false}
+        )}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className={frameClass} data-testid="reveal-wipe-frame">
+            {/* Before layer */}
+            <div data-wipe-parallax className="absolute inset-[-4%]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={pair.before}
+                alt={`Before — ${pair.alt}`}
+                className="h-full w-full object-cover"
+                fetchPriority="low"
+                decoding="async"
+                draggable={false}
+              />
+            </div>
+            {/* After layer, clipped by scroll progress */}
+            <div
+              ref={afterRef}
+              className="absolute inset-0"
+              style={{ clipPath: "inset(0 100% 0 0)" }}
+            >
+              <div data-wipe-parallax className="absolute inset-[-4%]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={pair.after}
+                  alt={`After — ${pair.alt}`}
+                  className="h-full w-full object-cover"
+                  fetchPriority="low"
+                  decoding="async"
+                  draggable={false}
+                />
+              </div>
+            </div>
+            {/* The clean edge with its light sweep */}
+            <div
+              ref={edgeRef}
+              aria-hidden
+              className="absolute inset-y-0 w-[2px] bg-accent transition-opacity"
+              style={{
+                left: "0%",
+                opacity: 0,
+                boxShadow:
+                  "0 0 28px 6px color-mix(in srgb, var(--color-accent) 45%, transparent)",
+              }}
             />
           </div>
         </div>
-        {/* The clean edge with its light sweep */}
-        <div
-          ref={edgeRef}
-          aria-hidden
-          className="absolute inset-y-0 w-[2px] bg-accent transition-opacity"
-          style={{
-            left: "0%",
-            opacity: 0,
-            boxShadow:
-              "0 0 28px 6px color-mix(in srgb, var(--color-accent) 45%, transparent)",
-          }}
-        />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-base to-transparent pb-16 pt-24 text-center">
           <p className="text-xs uppercase tracking-[0.3em] text-accent">
             Before / After
