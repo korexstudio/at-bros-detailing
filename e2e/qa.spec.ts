@@ -105,6 +105,12 @@ test.describe("QA — images", () => {
 });
 
 test.describe("QA — performance", () => {
+  // A timing measurement under 4x CPU throttle is sensitive to whatever
+  // else the machine is doing (other test workers, a game client, a dev
+  // server). In isolation the hero paints at ~1.75s against the 4s budget;
+  // a retry lands on a fresh worker once the parallel burst has passed.
+  test.describe.configure({ retries: 2 });
+
   test("hero LCP within budget on throttled mobile", async ({
     page,
     browserName,

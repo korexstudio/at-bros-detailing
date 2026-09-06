@@ -106,9 +106,10 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
     );
   }
 
-  // The showpiece sits far below the fold: its photos must never compete
-  // with the hero for bandwidth (fetchPriority low), but they stay eager so
-  // the scrub never reveals a half-loaded frame.
+  // The showpiece sits below the pinned wash sequence: its photos are
+  // lazy and low-priority so they queue behind the hero (the LCP element)
+  // rather than compete with it. They still land early, since the page is
+  // short until the pin engages, so the scrub never meets a blank frame.
   // Portrait pairs (phone shots) must not be stretched full-bleed across a
   // landscape viewport: a ~1000px-wide photo upscaled to 1440+ and cropped to
   // a band is the blur the owner will notice first. On landscape viewports
@@ -131,7 +132,8 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
             alt=""
             aria-hidden
             className="absolute inset-0 hidden h-full w-full scale-110 object-cover opacity-25 blur-2xl landscape:block"
-            fetchPriority="low"
+            loading="lazy"
+                fetchPriority="low"
             decoding="async"
             draggable={false}
           />
@@ -145,6 +147,7 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
                 src={pair.before}
                 alt={`Before — ${pair.alt}`}
                 className="h-full w-full object-cover"
+                loading="lazy"
                 fetchPriority="low"
                 decoding="async"
                 draggable={false}
@@ -162,7 +165,8 @@ export function RevealWipe({ pair }: { pair: BeforeAfterPair }) {
                   src={pair.after}
                   alt={`After — ${pair.alt}`}
                   className="h-full w-full object-cover"
-                  fetchPriority="low"
+                  loading="lazy"
+                fetchPriority="low"
                   decoding="async"
                   draggable={false}
                 />
