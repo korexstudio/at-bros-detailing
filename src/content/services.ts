@@ -2,7 +2,8 @@ import type { Service } from "./types";
 
 /**
  * The Service catalog: the single typed source of truth for everything the
- * UI sells. Prices and facts mirror the Square booking page as captured in
+ * UI sells. Prices, durations, and Square item tokens mirror the Square
+ * booking page as captured on 2026-09-05 in
  * docs/research/square-booking-services.md — update Square first, then here.
  *
  * Descriptions are rewritten in the site's voice; every real fact from the
@@ -12,8 +13,13 @@ export const services: Service[] = [
   {
     slug: "exterior-detail",
     name: "Exterior Detail",
-    squareItemName: "Exterior Detail (Sedan / Mini SUV / Truck/Sprinter/SUV)",
-    squareServiceId: null,
+    squareItemName: "Express Detail (Sedan) / Express Exterior (Mini SUV size) / Express Exterior (Truck/Sprinter/SUV)",
+    squareServiceId: "EIK27AZTYSQDK66ZQ2VK3FFN",
+    squareServiceIdsBySize: {
+      sedan: "EIK27AZTYSQDK66ZQ2VK3FFN",
+      miniSuv: "TDUSQFA5AQR3HNSNAFNA2ZEV",
+      truckSuv: "7HQADCBN2WKI5FDNOF32JGWC",
+    },
     pitch:
       "The standard wash and wax — swirl-free contact wash, ceramic sealant, dressed tires.",
     description: [
@@ -29,17 +35,17 @@ export const services: Service[] = [
       "Matte or shiny tire shine",
       "Blower-dried crevices, hand-dried with 1300 GSM towels",
     ],
-    duration: { minutes: 60, label: "50–60 min" },
-    basePrice: 80,
-    sizePrices: { sedan: 80, miniSuv: 90, truckSuv: 100 },
+    duration: { minutes: 60, label: "50 min – 1 hr" },
+    basePrice: 65,
+    sizePrices: { sedan: 65, miniSuv: 75, truckSuv: 80 },
     largerVehiclesQuoted: false,
     related: ["clay-and-seal", "full-detail", "basic-wash"],
   },
   {
     slug: "interior-detail",
     name: "Interior Detail",
-    squareItemName: "Interior Detail",
-    squareServiceId: null,
+    squareItemName: "Express Interior Detail",
+    squareServiceId: "ED2J7VHENBAJTRXMEBD6VXU6",
     pitch:
       "Every surface cleaned, deep-vacuumed, and conditioned back to an OEM matte finish.",
     description: [
@@ -55,15 +61,15 @@ export const services: Service[] = [
       "UV protection to prevent cracking",
     ],
     duration: { minutes: 105, label: "1 hr 45 min" },
-    basePrice: 100,
+    basePrice: 90,
     largerVehiclesQuoted: true,
     related: ["seat-carpet-shampoo", "full-detail", "maintenance-detail"],
   },
   {
     slug: "seat-carpet-shampoo",
     name: "Seat/Carpet Shampoo",
-    squareItemName: "Seat/Carpet Shampoo",
-    squareServiceId: null,
+    squareItemName: "Seat/Carpet Steam & Shampoo",
+    squareServiceId: "WXMVILYRNOWZGHVW7INSME76",
     pitch:
       "Steam, shampoo, and extraction for stains and odors — the deep clean for seats and carpet.",
     description: [
@@ -85,8 +91,8 @@ export const services: Service[] = [
   {
     slug: "full-detail",
     name: "Full Detail",
-    squareItemName: "Exterior Detail + Interior Detail",
-    squareServiceId: null,
+    squareItemName: "Express Exterior Detail + Interior Detail",
+    squareServiceId: "4G443NFKPLBY4HWPKVLAIHID",
     pitch:
       "The complete option: our Exterior Detail and Interior Detail on the same visit.",
     description: [
@@ -106,8 +112,8 @@ export const services: Service[] = [
   {
     slug: "clay-and-seal",
     name: "Clay and Seal",
-    squareItemName: "Clay and Seal",
-    squareServiceId: null,
+    squareItemName: "Executive Ext. (Clay & Seal - Sedan)",
+    squareServiceId: "NZPIY6NXX6DOQTUMMPGEUO5N",
     pitch:
       "Decontaminate to glassy-smooth, then seal it — includes the full Exterior Detail.",
     description: [
@@ -123,7 +129,7 @@ export const services: Service[] = [
       "Ceramic sealant rated 3–6 months",
     ],
     duration: { minutes: 120, label: "2 hr" },
-    basePrice: 130,
+    basePrice: 120,
     largerVehiclesQuoted: false,
     related: ["paint-enhancement", "exterior-detail", "full-detail"],
   },
@@ -131,7 +137,7 @@ export const services: Service[] = [
     slug: "paint-enhancement",
     name: "Paint Enhancement",
     squareItemName: "Paint Enhancement",
-    squareServiceId: null,
+    squareServiceId: "MKBOTLYVECRNZDPVKTLOVNXQ",
     pitch: "A level above clay — machine gloss and clarity, minor defects removed.",
     description: [
       "A level higher than a clay bar, a step below a one-step paint correction. If your car frequents automatic car washes, its paint is carrying high amounts of swirls and scratches you can see in every light.",
@@ -151,7 +157,7 @@ export const services: Service[] = [
     slug: "maintenance-detail",
     name: "Maintenance Detail",
     squareItemName: "Maintenance Detail",
-    squareServiceId: null,
+    squareServiceId: "PINYLYMNOO6YF2RIKFZPX2AT",
     pitch: "The monthly reset: hand wash, clean tires, dash wiped, carpets vacuumed.",
     description: [
       "The monthly reset between deep cleans. An exterior hand wash, tires cleaned, and inside: the dash wiped down, carpets blown out and vacuumed.",
@@ -164,7 +170,7 @@ export const services: Service[] = [
       "Carpets blown out and vacuumed",
     ],
     duration: { minutes: 80, label: "1 hr 20 min" },
-    basePrice: 75,
+    basePrice: 80,
     largerVehiclesQuoted: false,
     related: ["basic-wash", "exterior-detail", "interior-detail"],
   },
@@ -172,7 +178,7 @@ export const services: Service[] = [
     slug: "basic-wash",
     name: "Basic Wash",
     squareItemName: "Basic Wash",
-    squareServiceId: null,
+    squareServiceId: "VNWVGEFF6A7G5DZ55TRWEX6W",
     pitch: "Foaming pre-rinse and a careful hand wash — no protection applied.",
     description: [
       "A foaming pre-rinse and a careful hand wash. No paint protection is applied and wheels are not cleaned — this is the honest entry point, nothing more.",
@@ -183,8 +189,8 @@ export const services: Service[] = [
       "Careful hand wash",
       "No wheels, no protection — the honest basics",
     ],
-    duration: { minutes: 30, label: "30 min" },
-    basePrice: 50,
+    duration: { minutes: 20, label: "20 min" },
+    basePrice: 40,
     largerVehiclesQuoted: false,
     related: ["exterior-detail", "maintenance-detail"],
   },

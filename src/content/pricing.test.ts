@@ -89,15 +89,16 @@ describe("priceFor — every Service x Vehicle Size x Service Mode", () => {
 
   it("matches the captured Square prices (Mobile)", () => {
     const exterior = serviceBySlug("exterior-detail")!;
-    expect(priceFor(exterior, "sedan", "mobile")).toEqual({ kind: "price", amount: 80 });
-    expect(priceFor(exterior, "miniSuv", "mobile")).toEqual({ kind: "price", amount: 90 });
-    expect(priceFor(exterior, "truckSuv", "mobile")).toEqual({ kind: "price", amount: 100 });
-    expect(priceFor(serviceBySlug("interior-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 100 });
+    // Square booking page as re-captured 2026-09-05.
+    expect(priceFor(exterior, "sedan", "mobile")).toEqual({ kind: "price", amount: 65 });
+    expect(priceFor(exterior, "miniSuv", "mobile")).toEqual({ kind: "price", amount: 75 });
+    expect(priceFor(exterior, "truckSuv", "mobile")).toEqual({ kind: "price", amount: 80 });
+    expect(priceFor(serviceBySlug("interior-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 90 });
     expect(priceFor(serviceBySlug("full-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 150 });
-    expect(priceFor(serviceBySlug("clay-and-seal")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 130 });
+    expect(priceFor(serviceBySlug("clay-and-seal")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 120 });
     expect(priceFor(serviceBySlug("paint-enhancement")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 250 });
-    expect(priceFor(serviceBySlug("maintenance-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 75 });
-    expect(priceFor(serviceBySlug("basic-wash")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 50 });
+    expect(priceFor(serviceBySlug("maintenance-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 80 });
+    expect(priceFor(serviceBySlug("basic-wash")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 40 });
   });
 
   it("larger vehicles are quoted on Full Detail and Interior Detail (open owner questions)", () => {

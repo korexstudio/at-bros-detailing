@@ -4,7 +4,31 @@ Captured 2026-08-30 from https://book.squareup.com/appointments/ik4aa4vprzztxj/l
 
 Instagram (@at.bros.detailing) bio, same date: "Detailer in 626. All services check link to view pricing. Dropoff or Mobile. Call or Text (626) 788-2004 to book." Link in bio: squareup.com/appointments/book/LY8DWMQM6WX65
 
-## Services (name — price — duration)
+## Services (name — price — duration — Square item token)
+
+Re-captured **2026-09-05** from the live booking page. Several items were
+renamed and repriced since the 2026-08-30 capture (old price in brackets).
+The token is the last segment of each item's URL on the booking page; the
+site's `squareBookingUrl()` appends it to the services URL above.
+
+| Square item (current name) | Site Service | Price | Duration | Item token |
+| --- | --- | --- | --- | --- |
+| Express Detail (Sedan) | Exterior Detail · sedan | $65 [$80] | 50 min | `EIK27AZTYSQDK66ZQ2VK3FFN` |
+| Express Exterior (Mini SUV size) | Exterior Detail · Mini SUV | $75 [$90] | 1 hr | `TDUSQFA5AQR3HNSNAFNA2ZEV` |
+| Express Exterior (Truck/Sprinter/SUV) | Exterior Detail · Truck/SUV | $80 [$100] | 1 hr | `7HQADCBN2WKI5FDNOF32JGWC` |
+| Express Interior Detail | Interior Detail | $90 [$100] | 1 hr 45 min | `ED2J7VHENBAJTRXMEBD6VXU6` |
+| Seat/Carpet Steam & Shampoo | Seat/Carpet Shampoo (add-on) | $50 | 45 min | `WXMVILYRNOWZGHVW7INSME76` |
+| Executive Ext. (Clay & Seal - Sedan) | Clay and Seal | $120 [$130] | 2 hr | `NZPIY6NXX6DOQTUMMPGEUO5N` |
+| Express Exterior Detail + Interior Detail | Full Detail (sedan pricing) | $150 | 3 hr | `4G443NFKPLBY4HWPKVLAIHID` |
+| Drop off Discount | (Service Mode) | -$15 | 5 min | `5PZCNXLMIGO64CIZL2ZZZES2` |
+| Maintenance Detail | Maintenance Detail | $80 [$75] | 1 hr 20 min | `PINYLYMNOO6YF2RIKFZPX2AT` |
+| Paint Enhancement | Paint Enhancement | $250 | 3 hr | `MKBOTLYVECRNZDPVKTLOVNXQ` |
+| Basic Wash | Basic Wash | $40 [$50] | 20 min [30 min] | `VNWVGEFF6A7G5DZ55TRWEX6W` |
+
+Each item also carries a variation token (e.g. Sedan `BTTBIMWI3ZZIRPWOHXP6BMYE`);
+the booking URL uses the item token, so only that is stored in the catalog.
+
+### Services as captured 2026-08-30 (superseded)
 
 | Service | Price | Duration |
 | --- | --- | --- |

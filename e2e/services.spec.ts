@@ -27,14 +27,14 @@ test.describe("Service pages", () => {
     await page.goto("/services/exterior-detail");
     const price = page.locator("[data-price]").first();
 
-    await expect(price).toHaveAttribute("data-price", "$80");
+    await expect(price).toHaveAttribute("data-price", "$65");
     await page.getByRole("radio", { name: "Drop-off" }).click();
     await expect(price).toHaveAttribute(
       "data-price",
-      `$${80 - DROP_OFF_DISCOUNT}`,
+      `$${65 - DROP_OFF_DISCOUNT}`,
     );
     await page.getByRole("radio", { name: "Mobile" }).click();
-    await expect(price).toHaveAttribute("data-price", "$80");
+    await expect(price).toHaveAttribute("data-price", "$65");
   });
 
   test("Vehicle Size selector changes the price on size-priced Services", async ({
@@ -44,9 +44,27 @@ test.describe("Service pages", () => {
     const price = page.locator("[data-price]").first();
 
     await page.getByRole("button", { name: "Mini SUV" }).click();
-    await expect(price).toHaveAttribute("data-price", "$90");
+    await expect(price).toHaveAttribute("data-price", "$75");
     await page.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
-    await expect(price).toHaveAttribute("data-price", "$100");
+    await expect(price).toHaveAttribute("data-price", "$80");
+  });
+
+  test("Book now follows the selected Vehicle Size on Exterior Detail", async ({
+    page,
+  }) => {
+    const exterior = sellableServices.find((s) => s.slug === "exterior-detail")!;
+    await page.goto("/services/exterior-detail");
+    const bookNow = page.getByTestId("book-now");
+    await expect(bookNow).toHaveAttribute("href", squareBookingUrl(exterior, "sedan"));
+    await page.getByRole("button", { name: "Mini SUV" }).click();
+    await expect(bookNow).toHaveAttribute("href", squareBookingUrl(exterior, "miniSuv"));
+    await page.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
+    await expect(bookNow).toHaveAttribute("href", squareBookingUrl(exterior, "truckSuv"));
+    // Three distinct Square items.
+    const hrefs = (["sedan", "miniSuv", "truckSuv"] as const).map((s) =>
+      squareBookingUrl(exterior, s),
+    );
+    expect(new Set(hrefs).size).toBe(3);
   });
 
   test("larger vehicles on Full Detail show Quoted with a Quote Request handoff", async ({

@@ -6,6 +6,7 @@ import {
   VEHICLE_SIZES,
   priceFor,
   quoteRequestHref,
+  squareBookingUrl,
   type Service,
   type VehicleSize,
 } from "@/content";
@@ -17,6 +18,9 @@ import { ServiceModeToggle } from "./ServiceModeToggle";
  * The Service page price block: Vehicle Size selector (only where sizes
  * matter), the Service Mode toggle, and the price itself — rolling on
  * every change. "Quoted" cases hand off to the Quote Request CTA.
+ *
+ * The primary actions live here too, so "Book now" deep-links to the
+ * Square item for the selected Vehicle Size where Square prices by size.
  */
 export function PriceBlock({ service }: { service: Service }) {
   const [size, setSize] = useState<VehicleSize>("sedan");
@@ -26,6 +30,7 @@ export function PriceBlock({ service }: { service: Service }) {
   const price = priceFor(service, size, mode);
 
   return (
+    <>
     <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
@@ -81,5 +86,24 @@ export function PriceBlock({ service }: { service: Service }) {
         </p>
       )}
     </div>
+
+    {/* Primary actions */}
+    <div className="mt-6 flex flex-wrap gap-3">
+      <a
+        href={squareBookingUrl(service, size)}
+        data-testid="book-now"
+        className="rounded-full bg-accent px-7 py-3 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
+      >
+        Book now
+      </a>
+      <a
+        href={quoteRequestHref({ service })}
+        data-testid="quote-request"
+        className="rounded-full border border-line px-7 py-3 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
+      >
+        Not sure? Text us
+      </a>
+    </div>
+    </>
   );
 }

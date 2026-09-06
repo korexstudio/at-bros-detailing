@@ -33,7 +33,7 @@ a preview and only gets the report.
       Detail on larger vehicles — fixed bump or quoted? Update
       `src/content/services.ts` accordingly, then flip
       `pricingQuestionsAnswered`.
-- [ ] **Square per-Service deep-link ids captured** — open each Service on
+- [x] **Square per-Service deep-link ids captured** — open each Service on
       the Square booking page, copy its id from the URL, fill
       `squareServiceId` in `src/content/services.ts`, then flip
       `squareServiceIdsCaptured`.

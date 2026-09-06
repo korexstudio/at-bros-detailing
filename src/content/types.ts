@@ -48,11 +48,17 @@ export interface Service {
   /** The item name(s) as listed on Square, for the maintainer syncing prices. */
   squareItemName: string;
   /**
-   * Square deep-link id for this Service on the booking page.
-   * Not yet captured from Square — null falls back to the booking page URL.
-   * Capturing these is on the launch-gate checklist.
+   * Square item token for this Service: the deep link is the booking page
+   * URL + "/" + token. Captured 2026-09-05 from the booking page (see
+   * docs/research/square-booking-services.md). Null falls back to the
+   * booking page itself.
    */
   squareServiceId: string | null;
+  /**
+   * Per-Vehicle-Size item tokens where Square lists one item per size
+   * (Exterior Detail). `squareBookingUrl(service, size)` prefers these.
+   */
+  squareServiceIdsBySize?: Record<VehicleSize, string>;
   /** One-line pitch for cards and overviews. */
   pitch: string;
   /**

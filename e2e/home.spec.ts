@@ -45,11 +45,11 @@ test.describe("Home — the Transformation narrative", () => {
     for (const s of sellableServices) {
       await expect(overview.getByText(s.name, { exact: true })).toBeVisible();
     }
-    // Exterior Detail sedan: $80 mobile -> $65 drop-off.
+    // Exterior Detail sedan: $65 mobile -> $50 drop-off (Square, 2026-09-05).
     const prices = overview.locator("[data-price]");
-    await expect(prices.first()).toHaveAttribute("data-price", "$80");
-    await overview.getByRole("radio", { name: "Drop-off" }).click();
     await expect(prices.first()).toHaveAttribute("data-price", "$65");
+    await overview.getByRole("radio", { name: "Drop-off" }).click();
+    await expect(prices.first()).toHaveAttribute("data-price", "$50");
   });
 
   test("process chapters appear wash -> decontaminate -> protect -> interior", async ({

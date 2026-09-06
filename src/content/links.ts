@@ -1,5 +1,5 @@
 import { business } from "./business";
-import type { Service } from "./types";
+import type { Service, VehicleSize } from "./types";
 
 /**
  * Link builders. Square owns Bookings (ADR-0001): every "Book now" links out
@@ -11,15 +11,15 @@ export const SQUARE_BOOKING_PAGE =
   "https://book.squareup.com/appointments/ik4aa4vprzztxj/location/LY8DWMQM6WX65/services";
 
 /**
- * Deep link to a specific Service on Square.
- * Falls back to the booking page while `squareServiceId` is uncaptured
- * (capturing the per-Service ids is on the launch-gate checklist).
+ * Deep link to a specific Service on Square, landing the customer on that
+ * item with nothing left to pick. Where Square lists one item per Vehicle
+ * Size, pass the selected size to land on the right one. Falls back to
+ * the booking page when no token is known.
  */
-export function squareBookingUrl(service?: Service): string {
-  if (service?.squareServiceId) {
-    return `${SQUARE_BOOKING_PAGE}/${service.squareServiceId}`;
-  }
-  return SQUARE_BOOKING_PAGE;
+export function squareBookingUrl(service?: Service, size?: VehicleSize): string {
+  const id =
+    (size && service?.squareServiceIdsBySize?.[size]) ?? service?.squareServiceId;
+  return id ? `${SQUARE_BOOKING_PAGE}/${id}` : SQUARE_BOOKING_PAGE;
 }
 
 export interface QuoteRequestOptions {

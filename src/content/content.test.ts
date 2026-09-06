@@ -1,7 +1,15 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { business, galleryManifest, services } from "./index";
+import {
+  SQUARE_BOOKING_PAGE,
+  business,
+  galleryManifest,
+  sellableServices,
+  serviceBySlug,
+  services,
+  squareBookingUrl,
+} from "./index";
 
 const PUBLIC_DIR = path.resolve(__dirname, "../../public");
 
@@ -22,6 +30,38 @@ describe("gallery manifest", () => {
       expect(p.alt.length).toBeGreaterThan(10);
       expect(services.some((s) => s.slug === p.service), p.id).toBe(true);
     }
+  });
+});
+
+describe("Square deep links", () => {
+  const TOKEN = /^[A-Z0-9]{24}$/;
+
+  it("every Service carries a Square item token and deep-links to it", () => {
+    for (const s of services) {
+      expect(s.squareServiceId, s.slug).toMatch(TOKEN);
+      expect(squareBookingUrl(s)).toBe(`${SQUARE_BOOKING_PAGE}/${s.squareServiceId}`);
+    }
+    expect(sellableServices.length).toBeGreaterThan(0);
+  });
+
+  it("Exterior Detail deep-links per Vehicle Size; other Services ignore size", () => {
+    const exterior = serviceBySlug("exterior-detail")!;
+    const bySize = exterior.squareServiceIdsBySize!;
+    expect(bySize.sedan).toBe(exterior.squareServiceId);
+    expect(new Set(Object.values(bySize)).size).toBe(3);
+    for (const [size, id] of Object.entries(bySize)) {
+      expect(id).toMatch(TOKEN);
+      expect(squareBookingUrl(exterior, size as keyof typeof bySize)).toBe(
+        `${SQUARE_BOOKING_PAGE}/${id}`,
+      );
+    }
+    const interior = serviceBySlug("interior-detail")!;
+    expect(squareBookingUrl(interior, "truckSuv")).toBe(squareBookingUrl(interior));
+  });
+
+  it("no token is shared between two Services", () => {
+    const ids = services.map((s) => s.squareServiceId);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
 

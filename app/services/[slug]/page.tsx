@@ -5,10 +5,8 @@ import { PriceBlock } from "@/components/PriceBlock";
 import {
   addOnsFor,
   business,
-  quoteRequestHref,
   sellableServices,
   serviceBySlug,
-  squareBookingUrl,
   startingPrice,
   type Service,
 } from "@/content";
@@ -74,27 +72,9 @@ export default async function ServicePage({
         <p className="mt-4 max-w-prose text-lg text-ink-dim">{service.pitch}</p>
       </header>
 
-      {/* Price */}
+      {/* Price + primary actions (Book now follows the selected size) */}
       <div className="mt-10">
         <PriceBlock service={service} />
-      </div>
-
-      {/* Primary actions */}
-      <div className="mt-6 flex flex-wrap gap-3">
-        <a
-          href={squareBookingUrl(service)}
-          data-testid="book-now"
-          className="rounded-full bg-accent px-7 py-3 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
-        >
-          Book now
-        </a>
-        <a
-          href={quoteRequestHref({ service })}
-          data-testid="quote-request"
-          className="rounded-full border border-line px-7 py-3 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
-        >
-          Not sure? Text us
-        </a>
       </div>
 
       {/* What's included */}
