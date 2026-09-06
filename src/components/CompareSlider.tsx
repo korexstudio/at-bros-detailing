@@ -29,10 +29,12 @@ export function CompareSlider({ pair }: { pair: BeforeAfterPair }) {
           draggable={false}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        {/* After is clipped to the slider position. */}
+        {/* After is clipped to the RIGHT of the handle, under the "After"
+            label; Before shows to the left, under its label. Dragging right
+            reveals more Before, dragging left more After. */}
         <div
           className="absolute inset-0 overflow-hidden"
-          style={{ clipPath: `inset(0 ${100 - percent}% 0 0)` }}
+          style={{ clipPath: `inset(0 0 0 ${percent}%)` }}
           data-testid="after-pane"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
