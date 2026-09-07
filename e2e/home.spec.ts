@@ -7,12 +7,10 @@ test.describe("Home — the Transformation narrative", () => {
     const order = await page
       .locator("[data-section]")
       .evaluateAll((els) => els.map((el) => el.getAttribute("data-section")));
-    // "showpiece" appears nested in the slot once the manifest holds real pairs.
-    expect(order.filter((s) => s !== "showpiece")).toEqual([
+    expect(order).toEqual([
       "hero",
       "problem",
       "process",
-      "showpiece-slot",
       "before-after",
       "services",
       "why",

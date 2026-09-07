@@ -2,12 +2,10 @@ import {
   business,
   galleryManifest,
   quoteRequestHref,
-  realBeforeAfters,
   squareBookingUrl,
 } from "@/content";
 import { ImageSlot } from "@/components/ImageSlot";
 import { detectImage } from "@/lib/site-images";
-import { RevealWipe } from "./RevealWipe";
 
 /** Chapter 0: the problem. */
 export function Problem() {
@@ -39,20 +37,6 @@ export function Problem() {
         </div>
       </div>
     </section>
-  );
-}
-
-/**
- * The showpiece slot. The honesty gate: the scroll-scrubbed reveal wipe
- * mounts only when the manifest holds at least one REAL Before/After pair.
- * With none, the slot stays a zero-height div — no layout shift either way.
- */
-export function ShowpieceSlot() {
-  const pairs = realBeforeAfters();
-  return (
-    <div data-section="showpiece-slot">
-      {pairs.length > 0 ? <RevealWipe pair={pairs[0]} /> : null}
-    </div>
   );
 }
 

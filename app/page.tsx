@@ -5,7 +5,6 @@ import {
   ClosingCta,
   Problem,
   ServiceArea,
-  ShowpieceSlot,
   WhyAtBros,
 } from "@/components/home/sections";
 import { existsSync } from "node:fs";
@@ -49,7 +48,6 @@ export default function Home() {
       <Hero />
       <Problem />
       <WashSequence images={detectStageImages()} />
-      <ShowpieceSlot />
       <BeforeAfterStrip />
       <ServicesOverview />
       <WhyAtBros />

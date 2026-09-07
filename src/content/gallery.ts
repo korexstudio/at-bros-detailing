@@ -8,8 +8,8 @@ import type { GalleryManifest } from "./types";
  * Phone shots are portrait: mark them `aspect: "portrait"` so the compare
  * sliders frame the whole photo instead of cropping a landscape band.
  *
- * `isPlaceholder: true` entries never count as real work; the reveal-wipe
- * showpiece renders only when `hasRealBeforeAfters()` is true.
+ * `isPlaceholder: true` entries never count as real work toward the
+ * launch gate.
  */
 export const galleryManifest: GalleryManifest = {
   beforeAfters: [
@@ -44,7 +44,7 @@ export const galleryManifest: GalleryManifest = {
   finishedCars: [],
 };
 
-/** Real (non-placeholder) Before/After pairs — the honesty gate for the reveal wipe. */
+/** Real (non-placeholder) Before/After pairs. */
 export function realBeforeAfters() {
   return galleryManifest.beforeAfters.filter((p) => !p.isPlaceholder);
 }

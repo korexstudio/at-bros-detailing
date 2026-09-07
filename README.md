@@ -26,8 +26,8 @@ pnpm typecheck    # tsc --noEmit
 - **`public/brand/logo.svg`** — drop the real logo here; the wordmark swaps
   site-wide automatically.
 - **`public/gallery/` + `src/content/gallery.ts`** — drop photos in, register
-  them in the manifest. Real pairs (`isPlaceholder: false`) unlock the
-  reveal-wipe showpiece.
+  them in the manifest. Real pairs (`isPlaceholder: false`) count toward
+  the launch gate.
 - **`docs/launch-gate.md`** — what blocks production, and how the gate is
   enforced.
 - **`scripts/launch-wizard.sh`** — interactive walkthrough for Vercel,
