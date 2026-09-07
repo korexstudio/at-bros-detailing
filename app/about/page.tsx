@@ -18,32 +18,17 @@ export default function AboutPage() {
 
       <div className="mt-10 grid gap-10 md:grid-cols-5">
         <div className="md:col-span-3">
-          {/* Founder story — placeholder until the owner supplies it (launch gate). */}
-          <div
-            data-placeholder="founder-story"
-            className="rounded-xl border border-dashed border-accent-dim/50 bg-surface p-6"
-          >
-            <p className="text-xs uppercase tracking-[0.25em] text-accent">
-              Founder story — placeholder copy
+          <div className="space-y-4 leading-relaxed text-ink-dim">
+            <p>
+              AT Bros Detailing is a mobile detailing crew serving{" "}
+              {business.region} — we come to your driveway or curb anywhere in
+              the {business.regionLong}, or take your car at drop-off for less.
             </p>
-            <div className="mt-4 space-y-4 leading-relaxed text-ink-dim">
-              <p>
-                AT Bros Detailing is a small crew of brothers in the San Gabriel
-                Valley who got tired of watching good cars age badly. What
-                started with one car in a driveway became a mobile operation
-                serving the whole 626.
-              </p>
-              <p>
-                We&apos;re obsessive about the things you can&apos;t see in a
-                photo: towels heavy enough not to mar, wash methods that add
-                zero swirls, sealants we&apos;d put on our own cars.
-              </p>
-              <p className="text-ink-faint">
-                (This is stand-in copy. The real founder story — who the
-                brothers are, how it started, what they&apos;re obsessive about
-                — replaces it before launch.)
-              </p>
-            </div>
+            <p>
+              We&apos;re obsessive about the things you can&apos;t see in a
+              photo: towels heavy enough not to mar, wash methods that add zero
+              swirls, sealants we&apos;d put on our own cars.
+            </p>
           </div>
 
           <div className="mt-8">

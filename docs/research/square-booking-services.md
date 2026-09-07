@@ -83,5 +83,5 @@ This service includes a foaming pre rinse, and a hand wash and no paint protecti
 
 1. Full Detail on a Mini SUV / Truck-SUV: is it $150 + the exterior size bump ($160 / $170), or quoted case-by-case? Site shows "$150 · sedan; larger vehicles quoted" until answered.
 2. Interior Detail on larger vehicles: is there a fixed bump, or quoted? Site shows "larger vehicles quoted" until answered.
-3. Founder story for the About page: who are "AT Bros", how it started, what he's obsessive about. Placeholder copy until answered.
+3. ~~Founder story for the About page.~~ Answered 2026-09-07: the owner does not want a founder story on the site; the About page carries short service-focused copy instead.
 4. Logo colors / file (pending drop into `public/brand/`).

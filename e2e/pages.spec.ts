@@ -2,12 +2,12 @@ import { expect, test } from "@playwright/test";
 import { business } from "../src/content";
 
 test.describe("About", () => {
-  test("renders the story placeholder, hours, and cities from the content module", async ({
+  test("renders the intro copy, hours, and cities from the content module", async ({
     page,
   }) => {
     await page.goto("/about");
     const main = page.locator("#main");
-    await expect(main.locator('[data-placeholder="founder-story"]')).toBeVisible();
+    await expect(main.getByText("mobile detailing crew")).toBeVisible();
     await expect(main.getByText("5:30 PM – 8:00 PM").first()).toBeVisible();
     await expect(main.getByText("Pasadena", { exact: true })).toBeVisible();
     await expect(main.getByTestId("book-now")).toBeVisible();

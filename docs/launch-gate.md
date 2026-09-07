@@ -23,9 +23,6 @@ a preview and only gets the report.
       real photos as AVIF or WebP sized close to their largest rendered
       width (~1600px) — the placeholders are SVGs, so format discipline
       starts when real rasters land.
-- [ ] **Founder story supplied** — replace the placeholder block in
-      `app/about/page.tsx` with the owner's story, then flip
-      `founderStorySupplied` in `launch-approvals.json`.
 - [ ] **Owner copy approval** — the owner reads every page and signs off.
       Flip `ownerCopyApproved`.
 - [ ] **Open pricing questions answered** (see

@@ -5,14 +5,13 @@
  * Production deploys are blocked until the site stops standing on fakes:
  *   1. Real logo in public/brand/
  *   2. At least three real Before/After pairs in the gallery manifest
- *   3. Founder story supplied (About no longer placeholder)
- *   4. Owner has approved the copy
- *   5. Open pricing questions answered
- *   6. Square per-Service deep-link ids captured
+ *   3. Owner has approved the copy
+ *   4. Open pricing questions answered
+ *   5. Square per-Service deep-link ids captured
  *
  * Wired as `pnpm build` -> this script -> `next build`. It only blocks when
  * VERCEL_ENV=production; previews and local builds always pass (with a
- * report). Flags 3-6 live in launch-approvals.json, flipped by a human.
+ * report). Flags 3-5 live in launch-approvals.json, flipped by a human.
  */
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
@@ -48,7 +47,6 @@ const approvals = JSON.parse(
   readFileSync(path.join(root, "launch-approvals.json"), "utf8"),
 );
 const approvalChecks = {
-  founderStorySupplied: "Founder story still placeholder (About page)",
   ownerCopyApproved: "Owner has not approved the site copy",
   pricingQuestionsAnswered:
     "Open pricing questions unanswered (Full Detail / Interior Detail on larger vehicles)",
