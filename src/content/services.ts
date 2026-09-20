@@ -152,7 +152,7 @@ export const services: Service[] = [
     duration: { minutes: 180, label: "3 hr" },
     basePrice: 250,
     largerVehiclesQuoted: false,
-    related: ["clay-and-seal", "exterior-detail"],
+    related: ["ceramic-coating", "clay-and-seal", "exterior-detail"],
   },
   {
     slug: "maintenance-detail",
@@ -181,18 +181,17 @@ export const services: Service[] = [
     squareItemName: "3 Year Ceramic Coating",
     squareServiceId: "GGJ3FTQ2IVM7Q3SNWWBO7QEK",
     pitch:
-      "Three years of protection instead of months — applied over a Paint Enhancement so it bonds to corrected paint.",
+      "Three years of protection instead of months. Best on freshly corrected paint.",
     description: [
-      "A ceramic coating rated for three years, where a sealant lasts months. We strongly recommend it on top of a Paint Enhancement: the one-step correction leaves the paint clean and level, which is what lets the coating bond properly to the painted surfaces.",
+      "A ceramic coating rated for three years, where a sealant lasts months. A coating only bonds properly to clean, level paint, so we strongly recommend having the paint corrected first — pair it with a Paint Enhancement and book both.",
     ],
     included: [
-      "Ceramic coating rated for three years",
-      "Applied after the one-step correction so it bonds properly",
+      "Ceramic coating rated for three years on the painted surfaces",
+      "Applied to corrected paint so it bonds properly",
     ],
     duration: { minutes: 30, label: "30 min" },
     basePrice: 200,
     largerVehiclesQuoted: false,
-    addOnFor: "paint-enhancement",
     related: ["paint-enhancement", "clay-and-seal"],
   },
 ];

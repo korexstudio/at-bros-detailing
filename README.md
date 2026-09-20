@@ -1,8 +1,9 @@
 # AT Bros Detailing — marketing site
 
 Premium marketing site for AT Bros Detailing (mobile & drop-off car
-detailing, San Gabriel Valley). Square owns bookings (ADR-0001); every
-"Book now" deep-links to the Square booking page, and Quote Requests go by
+detailing, San Gabriel Valley). Bookings are requested by pre-filled text
+(ADR-0002): every "Book now" leads to the Book by text section or opens the
+text directly, with Square's deep links one tap away; Quote Requests go by
 `sms:`/`tel:`. Fully static Next.js — no server-side conversion logic.
 
 ## Commands

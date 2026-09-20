@@ -40,6 +40,14 @@ _Avoid_: Lead, enquiry, contact form
 An appointment for a specific Service, requested by a pre-filled text to the business or made directly on its Square booking page.
 _Avoid_: Appointment, reservation, order
 
+**Book by Text**:
+The way a Booking is requested on the site: the visitor picks a Service, Vehicle Size, Service Mode, and Timing, and one tap opens a text to the business with the request written out.
+_Avoid_: Booking form, contact form, enquiry
+
+**Timing**:
+How soon the visitor wants the Booking: as soon as possible, this week, or flexible.
+_Avoid_: Urgency, availability, schedule
+
 ### Showing the work
 
 **Before/After**:

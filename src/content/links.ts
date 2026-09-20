@@ -39,9 +39,14 @@ export interface QuoteRequestOptions {
 }
 
 /**
- * A Quote Request: a pre-filled text to the business.
- * Uses the `sms:` scheme with `?&body=` for iOS/Android compatibility.
+ * A pre-filled text to the business. Uses the `sms:` scheme with
+ * `?&body=` for iOS/Android compatibility.
  */
+function smsHref(parts: string[]): string {
+  return `sms:${business.phoneE164}?&body=${encodeURIComponent(parts.join(" "))}`;
+}
+
+/** A Quote Request: a pre-filled text asking the business to price a job. */
 export function quoteRequestHref(options: QuoteRequestOptions = {}): string {
   const parts = ["Hi AT Bros!"];
   if (options.service) {
@@ -53,8 +58,7 @@ export function quoteRequestHref(options: QuoteRequestOptions = {}): string {
   const vehicle = options.vehicle ? `${options.vehicle}.` : "";
   parts.push(`My vehicle${sizeNote}: ${vehicle}`);
   parts.push("Could I get a quote?");
-  const body = encodeURIComponent(parts.join(" "));
-  return `sms:${business.phoneE164}?&body=${body}`;
+  return smsHref(parts);
 }
 
 /** Where every "Book now" leads: the Book by text section on the home page. */
@@ -90,8 +94,7 @@ export function bookingTextHref(options: BookingTextOptions = {}): string {
   if (options.when) parts.push(`Timing: ${BOOKING_WHEN_LABELS[options.when]}.`);
   const vehicle = options.vehicle?.trim();
   parts.push(vehicle ? `My vehicle: ${vehicle}.` : "My vehicle: ");
-  const body = encodeURIComponent(parts.join(" "));
-  return `sms:${business.phoneE164}?&body=${body}`;
+  return smsHref(parts);
 }
 
 export function callHref(): string {

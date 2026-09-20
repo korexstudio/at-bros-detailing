@@ -26,7 +26,7 @@ a preview and only gets the report.
 - [x] **Owner copy approval** — the owner reads every page and signs off.
       Flip `ownerCopyApproved`. _Done 2026-09-19: approved via the owner's
       contact._
-- [ ] **Open pricing questions answered** (see
+- [x] **Open pricing questions answered** (see
       `docs/research/square-booking-services.md`): Full Detail and Interior
       Detail on larger vehicles — fixed bump or quoted? Update
       `src/content/services.ts` accordingly, then flip

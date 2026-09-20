@@ -12,8 +12,8 @@ import {
 } from "./index";
 
 describe("catalog shape", () => {
-  it("has exactly six sellable Services (Square, 2026-09-19)", () => {
-    expect(sellableServices).toHaveLength(6);
+  it("has exactly seven sellable Services (Square, 2026-09-19)", () => {
+    expect(sellableServices).toHaveLength(7);
   });
 
   it("badges exactly one Service as Most Popular: Full Detail", () => {
@@ -49,11 +49,11 @@ describe("catalog shape", () => {
     expect(addOns[0].basePrice).toBe(50);
   });
 
-  it("Paint Enhancement carries the 3-Year Ceramic Coating as its Add-on", () => {
-    const paint = serviceBySlug("paint-enhancement")!;
-    const addOns = addOnsFor(paint);
-    expect(addOns.map((a) => a.slug)).toEqual(["ceramic-coating"]);
-    expect(addOns[0].basePrice).toBe(200);
+  it("3-Year Ceramic Coating is its own bookable Service, as Square lists it", () => {
+    const ceramic = serviceBySlug("ceramic-coating")!;
+    expect(ceramic.addOnFor).toBeUndefined();
+    expect(sellableServices).toContain(ceramic);
+    expect(serviceBySlug("paint-enhancement")!.related).toContain("ceramic-coating");
   });
 
   it("Basic Wash is gone: Square no longer lists it", () => {

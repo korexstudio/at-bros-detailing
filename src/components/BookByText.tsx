@@ -10,19 +10,21 @@ import {
   priceFor,
   sellableServices,
   serviceBySlug,
-  squareBookingUrl,
   type BookingWhen,
 } from "@/content";
 import { useServiceMode } from "@/lib/service-mode";
 import { useVehicleSize } from "@/lib/vehicle-size";
 import { PriceRoll } from "./PriceRoll";
 import { PricingControls } from "./PricingControls";
+import { SquareFallbackNote } from "./SquareFallbackNote";
 
-const DEFAULT_SERVICE = "full-detail";
+/** The form opens on the Most Popular Service. */
+const DEFAULT_SERVICE =
+  sellableServices.find((s) => s.mostPopular)?.slug ?? sellableServices[0].slug;
 
 const fieldLabel = "text-xs uppercase tracking-[0.25em] text-ink-faint";
 const fieldInput =
-  "mt-2 w-full rounded-lg border border-line bg-surface px-4 py-3 text-sm text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none";
+  "mt-2 w-full rounded-lg border border-line bg-surface px-4 py-3 text-sm text-ink placeholder:text-ink-faint focus:border-accent";
 
 /**
  * Book by text (ADR-0002): the visitor picks a Service, Vehicle Size,
@@ -35,15 +37,15 @@ export function BookByText() {
   const [when, setWhen] = useState<BookingWhen>("asap");
   const [name, setName] = useState("");
   const [vehicle, setVehicle] = useState("");
-  const { size, chosen } = useVehicleSize();
-  const { mode } = useServiceMode();
+  const { size, chosenSize } = useVehicleSize();
+  const { mode, chosenMode } = useServiceMode();
 
   const service = serviceBySlug(slug) ?? sellableServices[0];
   const price = priceFor(service, size, mode);
   const href = bookingTextHref({
     service,
-    vehicleSize: chosen ? size : undefined,
-    serviceMode: mode,
+    vehicleSize: chosenSize,
+    serviceMode: chosenMode,
     when,
     vehicle,
     name,
@@ -72,7 +74,7 @@ export function BookByText() {
             </li>
             <li>
               <span className="font-medium text-ink">Drop-off.</span> Bring it
-              to us and save ${DROP_OFF_DISCOUNT} on every Service.
+              to us and take ${DROP_OFF_DISCOUNT} off.
             </li>
             <li>
               <span className="font-medium text-ink">Rather talk?</span> Call
@@ -134,7 +136,7 @@ export function BookByText() {
               <input
                 data-testid="book-name"
                 type="text"
-                autoComplete="given-name"
+                autoComplete="name"
                 placeholder="Optional"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -173,18 +175,11 @@ export function BookByText() {
             </a>
           </div>
 
-          <p className="mt-5 text-xs text-ink-faint">
-            Opens your messages app with everything filled in. Prefer to book
-            online?{" "}
-            <a
-              href={squareBookingUrl(service, size)}
-              data-testid="book-square"
-              className="text-ink-dim underline-offset-4 hover:text-accent hover:underline"
-            >
-              Use our Square page
-            </a>
-            .
-          </p>
+          <SquareFallbackNote
+            lead="Opens your messages app with everything filled in."
+            service={service}
+            size={size}
+          />
         </div>
       </div>
     </section>

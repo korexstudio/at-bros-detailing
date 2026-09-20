@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import {
   DROP_OFF_DISCOUNT,
+  business,
   sellableServices,
   squareBookingUrl,
 } from "../src/content";
@@ -33,7 +34,7 @@ test.describe("Service pages", () => {
       const bookNow = page.getByTestId("book-now");
       await expect(bookNow).toBeVisible();
       const href = (await bookNow.getAttribute("href")) ?? "";
-      expect(href.startsWith("sms:+16267882004?&body=")).toBe(true);
+      expect(href.startsWith(`sms:${business.phoneE164}?&body=`)).toBe(true);
       expect(decodeURIComponent(href.split("?&body=")[1])).toContain(`book a ${service.name}`);
       await expect(page.getByTestId("book-square")).toHaveAttribute(
         "href",
@@ -147,7 +148,7 @@ test.describe("Service pages", () => {
     await expect(page.getByText("Seat/Carpet Shampoo")).toBeVisible();
   });
 
-  test("Paint Enhancement shows the 3-Year Ceramic Coating Add-on", async ({ page }) => {
+  test("Paint Enhancement points at the 3-Year Ceramic Coating", async ({ page }) => {
     await page.goto("/services/paint-enhancement");
     await expect(page.getByText("3-Year Ceramic Coating")).toBeVisible();
   });

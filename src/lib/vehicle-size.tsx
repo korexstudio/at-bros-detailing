@@ -15,19 +15,20 @@ import type { VehicleSize } from "@/content";
  * and every price on the site follows, from the home cards to the
  * Service page. Sedan by default, in memory only.
  *
- * `chosen` records whether the visitor explicitly picked a size. Until
- * they do, the default is not treated as information: a Quote Request
- * must not claim "Sedan" for a truck owner who never touched the control.
+ * `chosenSize` is the size only once the visitor has explicitly picked
+ * one. Until then the default is not treated as information: a Quote
+ * Request must not claim "Sedan" for a truck owner who never touched
+ * the control.
  */
 interface VehicleSizeState {
   size: VehicleSize;
-  chosen: boolean;
+  chosenSize: VehicleSize | undefined;
   setSize: (size: VehicleSize) => void;
 }
 
 const VehicleSizeContext = createContext<VehicleSizeState>({
   size: "sedan",
-  chosen: false,
+  chosenSize: undefined,
   setSize: () => {},
 });
 
@@ -39,7 +40,7 @@ export function VehicleSizeProvider({ children }: { children: ReactNode }) {
     setChosen(true);
   }, []);
   const value = useMemo(
-    () => ({ size, chosen, setSize }),
+    () => ({ size, chosenSize: chosen ? size : undefined, setSize }),
     [size, chosen, setSize],
   );
   return (

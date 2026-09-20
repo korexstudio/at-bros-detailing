@@ -36,7 +36,7 @@ export function ServiceModeToggle() {
         ))}
       </div>
       <span className="text-xs text-ink-faint">
-        Drop-off saves ${DROP_OFF_DISCOUNT} on every Service.
+        Drop-off takes ${DROP_OFF_DISCOUNT} off.
       </span>
     </div>
   );

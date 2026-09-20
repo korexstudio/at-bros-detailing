@@ -19,11 +19,8 @@ export function QuoteLink({
   children: ReactNode;
   "data-testid"?: string;
 }) {
-  const { size, chosen } = useVehicleSize();
-  const href = quoteRequestHref({
-    service,
-    vehicleSize: chosen ? size : undefined,
-  });
+  const { chosenSize } = useVehicleSize();
+  const href = quoteRequestHref({ service, vehicleSize: chosenSize });
   return (
     <a href={href} className={className} {...rest}>
       {children}

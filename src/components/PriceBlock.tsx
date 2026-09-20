@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  bookingTextHref,
-  priceFor,
-  sizesMatter,
-  squareBookingUrl,
-  type Service,
-} from "@/content";
+import { bookingTextHref, priceFor, sizesMatter, type Service } from "@/content";
 import { useServiceMode } from "@/lib/service-mode";
 import { useVehicleSize } from "@/lib/vehicle-size";
 import { PriceRoll } from "./PriceRoll";
 import { QuoteLink } from "./QuoteLink";
 import { ServiceModeToggle } from "./ServiceModeToggle";
+import { SquareFallbackNote } from "./SquareFallbackNote";
 import { VehicleSizeSelector } from "./VehicleSizeSelector";
 
 /**
@@ -20,18 +15,18 @@ import { VehicleSizeSelector } from "./VehicleSizeSelector";
  * every change. "Quoted" cases hand off to the Quote Request CTA.
  *
  * The primary actions live here too. "Book now" is a pre-filled text
- * naming this Service and the visitor's choices (ADR-0002); the Square
- * deep link for the selected Vehicle Size stays one tap away.
+ * naming this Service and the visitor's explicit choices (ADR-0002); the
+ * Square deep link for the selected Vehicle Size stays one tap away.
  */
 export function PriceBlock({ service }: { service: Service }) {
-  const { size, chosen } = useVehicleSize();
-  const { mode } = useServiceMode();
+  const { size, chosenSize } = useVehicleSize();
+  const { mode, chosenMode } = useServiceMode();
 
   const price = priceFor(service, size, mode);
-  const bookHref = bookingTextHref({
+  const bookTextHref = bookingTextHref({
     service,
-    vehicleSize: chosen ? size : undefined,
-    serviceMode: mode,
+    vehicleSize: chosenSize,
+    serviceMode: chosenMode,
   });
 
   return (
@@ -76,7 +71,7 @@ export function PriceBlock({ service }: { service: Service }) {
     {/* Primary actions */}
     <div className="mt-6 flex flex-wrap gap-3">
       <a
-        href={bookHref}
+        href={bookTextHref}
         data-testid="book-now"
         className="rounded-full bg-accent px-7 py-3 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
       >
@@ -90,18 +85,11 @@ export function PriceBlock({ service }: { service: Service }) {
         Not sure? Text us
       </QuoteLink>
     </div>
-    <p className="mt-4 text-xs text-ink-faint">
-      Book now opens a text with this Service filled in. Prefer to book
-      online?{" "}
-      <a
-        href={squareBookingUrl(service, size)}
-        data-testid="book-square"
-        className="text-ink-dim underline-offset-4 hover:text-accent hover:underline"
-      >
-        Use our Square page
-      </a>
-      .
-    </p>
+    <SquareFallbackNote
+      lead="Book now opens a text with this Service filled in."
+      service={service}
+      size={size}
+    />
     </>
   );
 }
