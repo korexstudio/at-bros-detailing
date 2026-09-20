@@ -151,12 +151,10 @@ html[data-motion="full"] .hero-grain {
   transform: none;
 }
 
-/* --- In-page anchors --- */
+/* --- In-page anchors ---
+   No CSS scroll-behavior: smooth here. Lenis and scrollToId write the
+   scroll position every frame, and a smooth-scrolling root turns each
+   write into a browser animation that cancels the last one. */
 html {
   scroll-padding-top: 4rem;
-}
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
 }
