@@ -5,12 +5,11 @@ import { useMotionPreference } from "@/lib/motion";
 
 /**
  * The home page's scroll motion: Lenis smooth scrolling, parallax depth in
- * the process chapters, and text reveals as sections enter.
+ * the problem section, and text reveals as sections enter.
  *
  * Everything routes through the motion-preference gate:
  * - "reduced": this component only stamps html[data-motion] and stops.
- * - "lite":    text reveals only — no smooth scroll, no parallax. (The wash
- *              sequence and reveal wipe gate themselves and stay on.)
+ * - "lite":    text reveals only — no smooth scroll, no parallax.
  * - "full":    the whole show.
  *
  * The gate value is mirrored to <html data-motion> so pure-CSS effects
@@ -67,12 +66,9 @@ export function MotionLayer() {
           });
         }
 
-        // Text reveals as sections enter (full + lite). The wash sequence
-        // drives its own opacity — leave it alone.
+        // Text reveals as sections enter (full + lite).
         gsap.utils
-          .toArray<HTMLElement>(
-            "[data-section]:not([data-section='process']) h2, [data-parallax='copy'] p",
-          )
+          .toArray<HTMLElement>("[data-section] h2, [data-parallax='copy'] p")
           .forEach((el) => {
             gsap.from(el, {
               y: 28,

@@ -16,7 +16,6 @@ test.describe("Home — the Transformation narrative", () => {
     expect(order).toEqual([
       "hero",
       "problem",
-      "process",
       "before-after",
       "services",
       "book",
@@ -131,16 +130,6 @@ test.describe("Home — the Transformation narrative", () => {
       "href",
       squareBookingUrl(clay, "truckSuv"),
     );
-  });
-
-  test("process chapters appear wash -> decontaminate -> protect -> interior", async ({
-    page,
-  }) => {
-    await page.goto("/");
-    const chapters = await page
-      .locator("[data-chapter]")
-      .evaluateAll((els) => els.map((el) => el.getAttribute("data-chapter")));
-    expect(chapters).toEqual(["wash", "decontaminate", "protect", "interior"]);
   });
 
   test("no horizontal overflow at 375px", async ({ page }) => {

@@ -46,8 +46,7 @@ test.describe("Motion layer — full motion", () => {
     test.skip(!isMobile, "desktop-only assertion inverse");
     await page.goto("/");
     await expect(page.locator("html")).toHaveAttribute("data-motion", "lite");
-    // No smooth scroll or parallax on lite. (The wash sequence still pins;
-    // see wash-sequence.spec.)
+    // No smooth scroll or parallax on lite.
     await expect(page.locator("html")).not.toHaveAttribute("data-smooth-scroll", "on");
   });
 
