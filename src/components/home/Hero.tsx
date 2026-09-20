@@ -38,12 +38,12 @@ export function Hero() {
         <Wordmark size="lg" />
         <p className="mt-6 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-accent">
           <span aria-hidden className="h-px w-8 bg-accent" />
-          Mobile detailing · We come to you
+          Quality is not an act, it is a habit
         </p>
         <h1 className="font-display mt-4 max-w-3xl text-display-xl leading-[1.05]">
           Your car,
           <br />
-          <span className="text-accent">the way it left the showroom.</span>
+          the way it left the showroom.
         </h1>
         <p className="mt-5 max-w-xl text-lg text-ink-dim">
           Premium mobile &amp; drop-off detailing across {business.regionLong}.
