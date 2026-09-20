@@ -55,6 +55,6 @@ test.describe("Motion layer — full motion", () => {
   }) => {
     await page.goto("/");
     await page.keyboard.press("End");
-    await expect(page.locator('[data-section="closing"] h2')).toBeVisible();
+    await expect(page.locator('[data-section="book"] h2')).toBeVisible();
   });
 });

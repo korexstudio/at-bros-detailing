@@ -83,6 +83,8 @@ export function Footer() {
         </span>
         <nav aria-label="Footer" className="flex gap-5">
           <Link href="/services" className="hover:text-ink-dim">Services</Link>
+          <Link href="/#work" className="hover:text-ink-dim">Our work</Link>
+          <Link href="/#book" className="hover:text-ink-dim">Book</Link>
           <Link href="/gallery" className="hover:text-ink-dim">Gallery</Link>
           <Link href="/about" className="hover:text-ink-dim">About</Link>
           <Link href="/contact" className="hover:text-ink-dim">Contact</Link>

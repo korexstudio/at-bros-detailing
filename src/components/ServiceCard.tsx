@@ -1,54 +1,102 @@
 "use client";
 
 import Link from "next/link";
-import { priceFor, sizesMatter, type PriceResult, type Service } from "@/content";
+import {
+  VEHICLE_SIZES,
+  VEHICLE_SIZE_LABELS,
+  priceFor,
+  sizesMatter,
+  type PriceResult,
+  type Service,
+  type ServiceMode,
+} from "@/content";
+import { useBookingDraft } from "@/lib/booking-draft";
 import { useServiceMode } from "@/lib/service-mode";
-import { useVehicleSize } from "@/lib/vehicle-size";
+import { AnchorLink } from "./AnchorLink";
 import { PriceRoll } from "./PriceRoll";
 
-/** The small print beside the price: what the number applies to. */
-function priceNote(service: Service, price: PriceResult): string {
-  if (price.kind === "quoted") return "larger vehicles, one text";
-  if (service.sizePrices) return "your size";
-  if (sizesMatter(service)) return "sedan · larger vehicles quoted";
-  return "flat";
+const MAX_BULLETS = 5;
+
+interface PriceRow {
+  key: string;
+  label: string;
+  price: PriceResult;
+}
+
+/** One row per Vehicle Size where size matters, else a single flat row. */
+function priceRows(service: Service, mode: ServiceMode): PriceRow[] {
+  if (sizesMatter(service)) {
+    return VEHICLE_SIZES.map((size) => ({
+      key: size,
+      label: VEHICLE_SIZE_LABELS[size],
+      price: priceFor(service, size, mode),
+    }));
+  }
+  return [{ key: "all", label: "All sizes", price: priceFor(service, "sedan", mode) }];
 }
 
 /**
- * One Service in a list, priced live for the chosen Vehicle Size and
- * Service Mode, badged when it is the Most Popular Service.
+ * One Service on the pricing grid: every Vehicle Size priced live for the
+ * chosen Service Mode, what's included, and a Book button that preselects
+ * this Service on the Book by text form.
  */
 export function ServiceCard({ service }: { service: Service }) {
   const { mode } = useServiceMode();
-  const { size } = useVehicleSize();
-  const price = priceFor(service, size, mode);
+  const { chooseService } = useBookingDraft();
+  const rows = priceRows(service, mode);
 
   return (
-    <li data-service={service.slug} className="relative">
+    <li
+      data-service={service.slug}
+      className={`relative flex flex-col rounded-xl border bg-surface p-6 ${
+        service.mostPopular ? "border-accent/60" : "border-line"
+      }`}
+    >
       {service.mostPopular && (
-        <span className="absolute -top-3 left-5 z-10 rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-base">
+        <span className="absolute -top-3 left-5 rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-base">
           Most popular
         </span>
       )}
-      <Link
-        href={`/services/${service.slug}`}
-        className="group flex h-full flex-col rounded-xl border border-line bg-surface p-6 transition-colors hover:border-accent-dim"
-      >
-        <span className="font-display text-xl group-hover:text-accent">
-          {service.name}
-        </span>
-        <span className="mt-2 flex-1 text-sm leading-relaxed text-ink-dim">
-          {service.pitch}
-        </span>
-        <span className="mt-4 flex items-baseline gap-2">
-          <PriceRoll price={price} className="text-2xl text-accent" />
-          <span className="text-xs text-ink-faint">
-            {priceNote(service, price)}
-            {" · "}
-            {service.duration.label}
-          </span>
-        </span>
-      </Link>
+      <h3 className="font-display text-xl text-ink">{service.name}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-ink-dim">{service.pitch}</p>
+
+      <dl className="mt-5 divide-y divide-line border-y border-line">
+        {rows.map((row) => (
+          <div key={row.key} className="flex items-baseline justify-between gap-4 py-2">
+            <dt className="text-sm text-ink-dim">{row.label}</dt>
+            <dd data-size={row.key}>
+              <PriceRoll price={row.price} className="font-display text-lg text-accent" />
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <ul className="mt-5 space-y-2 text-sm text-ink-dim">
+        {service.included.slice(0, MAX_BULLETS).map((item) => (
+          <li key={item} className="flex gap-2">
+            <span aria-hidden className="text-accent">
+              —
+            </span>
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto flex flex-wrap items-center gap-4 pt-6">
+        <AnchorLink
+          href="/#book"
+          onNavigate={() => chooseService(service.slug)}
+          className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
+        >
+          Book {service.name}
+        </AnchorLink>
+        <Link
+          href={`/services/${service.slug}`}
+          className="text-sm text-ink-dim underline-offset-4 transition-colors hover:text-accent hover:underline"
+        >
+          Details
+        </Link>
+      </div>
     </li>
   );
 }

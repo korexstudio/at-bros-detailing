@@ -150,3 +150,13 @@ html[data-motion="full"] .hero-grain {
 .skip-link:focus-visible {
   transform: none;
 }
+
+/* --- In-page anchors --- */
+html {
+  scroll-padding-top: 4rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

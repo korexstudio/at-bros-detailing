@@ -1,13 +1,12 @@
-import { bookHref, business } from "@/content";
-import { QuoteLink } from "@/components/QuoteLink";
+import { bookHref, business, callHref } from "@/content";
+import { AnchorLink } from "@/components/AnchorLink";
 import { ImageSlot } from "@/components/ImageSlot";
 import { Wordmark } from "@/components/Wordmark";
 import { detectImage } from "@/lib/site-images";
 
 /**
- * The hero: a Finished Car, the wordmark, and the primary CTA.
- * Ticket #6 adds drift, light sweep, and grain — this stays fully
- * readable with zero animation.
+ * The hero: a Finished Car, the wordmark, and the two ways in — book by
+ * text, or call. Stays fully readable with zero animation.
  */
 export function Hero() {
   return (
@@ -37,24 +36,34 @@ export function Hero() {
 
       <div className="relative mx-auto w-full max-w-6xl px-5 pb-20 pt-40 sm:px-8">
         <Wordmark size="lg" />
-        <h1 className="font-display mt-6 max-w-3xl text-display-xl leading-[1.05]">
-          Your car, the way it left the showroom.
+        <p className="mt-6 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-accent">
+          <span aria-hidden className="h-px w-8 bg-accent" />
+          Mobile detailing · We come to you
+        </p>
+        <h1 className="font-display mt-4 max-w-3xl text-display-xl leading-[1.05]">
+          Your car,
+          <br />
+          <span className="text-accent">the way it left the showroom.</span>
         </h1>
         <p className="mt-5 max-w-xl text-lg text-ink-dim">
           Premium mobile &amp; drop-off detailing across {business.regionLong}.
           We come to you — or you come to us and save.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a
+          <AnchorLink
             href={bookHref()}
             data-testid="hero-book"
             className="rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
           >
             Book now
+          </AnchorLink>
+          <a
+            href={callHref()}
+            data-testid="hero-call"
+            className="rounded-full border border-ink-faint/40 px-8 py-3.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
+          >
+            Call {business.phoneDisplay}
           </a>
-          <QuoteLink className="rounded-full border border-ink-faint/40 px-8 py-3.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent">
-            Text us a question
-          </QuoteLink>
         </div>
       </div>
     </section>

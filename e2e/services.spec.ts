@@ -13,14 +13,14 @@ test.describe("Services index", () => {
     await page.goto("/services");
     const main = page.locator("#main");
     for (const s of sellableServices) {
-      await expect(main.getByText(s.name, { exact: true })).toBeVisible();
+      await expect(main.getByRole("heading", { name: s.name, exact: true })).toBeVisible();
     }
-    const exterior = main.locator('[data-service="exterior-detail"] [data-price]');
-    await expect(exterior).toHaveAttribute("data-price", "$65");
+    const exterior = main.locator('[data-service="exterior-detail"]');
+    const sedan = exterior.locator('[data-size="sedan"] [data-price]');
+    await expect(sedan).toHaveAttribute("data-price", "$65");
+    await expect(exterior.locator('[data-size="truckSuv"] [data-price]')).toHaveAttribute("data-price", "$80");
     await main.getByRole("radio", { name: "Drop-off" }).click();
-    await expect(exterior).toHaveAttribute("data-price", `$${65 - DROP_OFF_DISCOUNT}`);
-    await main.getByRole("button", { name: "Mini SUV" }).click();
-    await expect(exterior).toHaveAttribute("data-price", `$${75 - DROP_OFF_DISCOUNT}`);
+    await expect(sedan).toHaveAttribute("data-price", `$${65 - DROP_OFF_DISCOUNT}`);
     await expect(main.getByText("Most popular", { exact: true })).toHaveCount(1);
   });
 });
@@ -121,9 +121,14 @@ test.describe("Service pages", () => {
   }) => {
     const exterior = sellableServices.find((s) => s.slug === "exterior-detail")!;
     await page.goto("/");
-    const overview = page.locator('[data-section="services"]');
-    await overview.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
-    await overview.locator('[data-service="exterior-detail"] a').first().click();
+    await page
+      .locator('[data-section="book"]')
+      .getByRole("button", { name: "Truck / Sprinter / SUV" })
+      .click();
+    await page
+      .locator('[data-service="exterior-detail"]')
+      .getByRole("link", { name: "Details" })
+      .click();
     await expect(page).toHaveURL(/\/services\/exterior-detail$/);
     await expect(page.getByTestId("book-square")).toHaveAttribute(
       "href",

@@ -6,6 +6,7 @@ import { SITE_URL, localBusinessJsonLd } from "@/content/seo";
 import { MotionPreferenceProvider } from "@/lib/motion";
 import { ServiceModeProvider } from "@/lib/service-mode";
 import { VehicleSizeProvider } from "@/lib/vehicle-size";
+import { BookingDraftProvider } from "@/lib/booking-draft";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileActionBar } from "@/components/MobileActionBar";
@@ -55,12 +56,14 @@ export default function RootLayout({
         <MotionPreferenceProvider>
           <ServiceModeProvider>
             <VehicleSizeProvider>
+            <BookingDraftProvider>
               <Header />
               <main id="main" className="pt-16">
                 {children}
               </main>
               <Footer />
               <MobileActionBar />
+            </BookingDraftProvider>
             </VehicleSizeProvider>
           </ServiceModeProvider>
         </MotionPreferenceProvider>

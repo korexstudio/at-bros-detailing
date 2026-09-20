@@ -1,9 +1,131 @@
-import { bookHref, business, galleryManifest } from "@/content";
-import { QuoteLink } from "@/components/QuoteLink";
+import Link from "next/link";
+import {
+  DROP_OFF_DISCOUNT,
+  business,
+  formatPrice,
+  priceFor,
+  realBeforeAfters,
+  serviceBySlug,
+  services,
+} from "@/content";
+import { CompareSlider } from "@/components/CompareSlider";
 import { ImageSlot } from "@/components/ImageSlot";
 import { detectImage } from "@/lib/site-images";
 
-/** Chapter 0: the problem. */
+const TRUST = [
+  {
+    title: "Mobile or drop-off",
+    body: `We come to you across ${business.regionLong}, or you come to us and take $${DROP_OFF_DISCOUNT} off.`,
+  },
+  {
+    title: "Priced straight",
+    body: "Every price on this page is the price. Bigger or dirtier than average? One text and we say a number.",
+  },
+  {
+    title: "Obsessive by default",
+    body: "1300 GSM towels because thinner ones mar. Two-bucket washes because shortcuts scratch.",
+  },
+  {
+    title: "Booked in one text",
+    body: "Pick a Service, tap once, and your messages app opens with the request written out.",
+  },
+] as const;
+
+/** The strip under the hero: why AT Bros, in four tiles. */
+export function TrustStrip() {
+  return (
+    <section data-section="trust" className="border-y border-line bg-surface">
+      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-4">
+        {TRUST.map((item) => (
+          <div key={item.title}>
+            <h2 className="font-display text-lg text-ink">{item.title}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-ink-dim">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** Add-ons: what can be added on top of a Service. */
+export function AddOns() {
+  const addOns = services.filter((s) => s.addOnFor);
+  if (addOns.length === 0) return null;
+
+  return (
+    <section data-section="add-ons" className="border-y border-line bg-surface">
+      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
+        <p className="text-xs uppercase tracking-[0.3em] text-accent">Add-ons</p>
+        <h2 className="font-display mt-3 text-display-lg leading-tight">
+          Customize any Service.
+        </h2>
+        <ul className="mt-8 divide-y divide-line border-y border-line">
+          {addOns.map((addOn) => {
+            const parent = serviceBySlug(addOn.addOnFor!);
+            return (
+              <li
+                key={addOn.slug}
+                className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 py-5"
+              >
+                <div className="max-w-2xl">
+                  <span className="font-display text-xl text-ink">{addOn.name}</span>
+                  <span className="mt-1 block text-sm text-ink-dim">{addOn.pitch}</span>
+                  {parent && (
+                    <span className="mt-1 block text-xs text-ink-faint">
+                      Added to {parent.name} · {addOn.duration.label}
+                    </span>
+                  )}
+                </div>
+                <span className="font-display text-2xl text-accent">
+                  {formatPrice(priceFor(addOn, "sedan", "mobile"))}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/** Our work: every real Before/After pair, drag to compare. */
+export function OurWork() {
+  const pairs = realBeforeAfters();
+  if (pairs.length === 0) return null;
+
+  return (
+    <section
+      id="work"
+      data-section="work"
+      className="mx-auto max-w-6xl scroll-mt-16 px-5 py-24 sm:px-8"
+    >
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <p className="text-xs uppercase tracking-[0.3em] text-accent">Our work</p>
+          <h2 className="font-display mt-3 text-display-lg leading-tight">
+            Real cars. Real results.
+          </h2>
+          <p className="mt-4 max-w-prose text-ink-dim">
+            Same car, same day. Drag to compare.
+          </p>
+        </div>
+        <Link
+          href="/gallery"
+          className="text-sm text-ink-dim underline-offset-4 transition-colors hover:text-accent hover:underline"
+        >
+          See the full gallery
+        </Link>
+      </div>
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {pairs.map((pair) => (
+          <CompareSlider key={pair.id} pair={pair} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** The problem, and the Service that fixes it. */
 export function Problem() {
   return (
     <section data-section="problem" className="mx-auto max-w-6xl px-5 py-24 sm:px-8">
@@ -19,7 +141,7 @@ export function Problem() {
         </div>
         <div data-parallax="copy">
           <p className="text-xs uppercase tracking-[0.3em] text-accent">
-            The problem
+            Clay and Seal
           </p>
           <h2 className="font-display mt-3 text-display-lg leading-tight">
             The 626 is hard on paint.
@@ -30,146 +152,16 @@ export function Problem() {
             stack up until black looks grey. It happens slowly enough that most
             people stop seeing it.
           </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/** The Before/After strip, straight from the gallery manifest. */
-export function BeforeAfterStrip() {
-  const pairs = galleryManifest.beforeAfters.slice(0, 2);
-  if (pairs.length === 0) return null;
-
-  return (
-    <section data-section="before-after" className="mx-auto max-w-6xl px-5 py-24 sm:px-8">
-      <p className="text-xs uppercase tracking-[0.3em] text-accent">The proof</p>
-      <h2 className="font-display mt-3 text-display-lg leading-tight">
-        Same car. Same day.
-      </h2>
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
-        {pairs.map((pair) => {
-          const aspect = pair.aspect === "portrait" ? "aspect-[4/5]" : "aspect-[3/2]";
-          return (
-          <figure key={pair.id} className="grid grid-cols-2 gap-2">
-            <div className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={pair.before}
-                alt={`Before — ${pair.alt}`}
-                loading="lazy"
-                className={`${aspect} w-full rounded-l-xl object-cover`}
-              />
-              <span className="absolute left-2 top-2 rounded bg-base/70 px-2 py-0.5 text-xs text-ink-dim">
-                Before
-              </span>
-            </div>
-            <div className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={pair.after}
-                alt={`After — ${pair.alt}`}
-                loading="lazy"
-                className={`${aspect} w-full rounded-r-xl object-cover`}
-              />
-              <span className="absolute right-2 top-2 rounded bg-accent/80 px-2 py-0.5 text-xs font-medium text-base">
-                After
-              </span>
-            </div>
-            {pair.isPlaceholder && (
-              <figcaption className="col-span-2 text-xs text-ink-faint">
-                Placeholder — replaced by real work at launch.
-              </figcaption>
-            )}
-          </figure>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-const WHY = [
-  {
-    title: "Obsessive by default",
-    body: "1300 GSM towels because thinner ones mar. Two-bucket washes because shortcuts scratch. The details are the product.",
-  },
-  {
-    title: "Mobile or drop-off",
-    body: `We come to you anywhere in ${business.regionLong} — or drop off and save on every Service.`,
-  },
-  {
-    title: "Priced straight",
-    body: "Every price on this site is the price. Bigger or dirtier than average? We say \"quoted\" and mean one text message.",
-  },
-] as const;
-
-export function WhyAtBros() {
-  return (
-    <section data-section="why" className="border-y border-line bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8">
-        <p className="text-xs uppercase tracking-[0.3em] text-accent">
-          Why AT Bros
-        </p>
-        <h2 className="font-display mt-3 max-w-2xl text-display-lg leading-tight">
-          Small crew. Serious standards.
-        </h2>
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
-          {WHY.map((item) => (
-            <div key={item.title}>
-              <h3 className="font-display text-xl text-ink">{item.title}</h3>
-              <p className="mt-3 leading-relaxed text-ink-dim">{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function ServiceArea() {
-  return (
-    <section data-section="service-area" className="mx-auto max-w-6xl px-5 py-24 sm:px-8">
-      <p className="text-xs uppercase tracking-[0.3em] text-accent">Service area</p>
-      <h2 className="font-display mt-3 text-display-lg leading-tight">
-        All over the 626.
-      </h2>
-      <p className="mt-4 max-w-prose text-ink-dim">
-        Mobile detailing across {business.regionLong}. Drop-off available too —{" "}
-        {business.dropOffAddressRule.toLowerCase()}
-      </p>
-      <ul className="mt-8 flex flex-wrap gap-2">
-        {business.cities.map((city) => (
-          <li
-            key={city}
-            className="rounded-full border border-line px-4 py-1.5 text-sm text-ink-dim"
+          <p className="mt-4 max-w-prose leading-relaxed text-ink-dim">
+            Clay and Seal pulls the contamination out and lays down months of
+            protection. Glassy-smooth again, straight back to an OEM feel.
+          </p>
+          <Link
+            href="/services/clay-and-seal"
+            className="mt-8 inline-block rounded-full border border-ink-faint/40 px-7 py-3 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
           >
-            {city}
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-export function ClosingCta() {
-  return (
-    <section data-section="closing" className="border-t border-line">
-      <div className="mx-auto max-w-6xl px-5 py-28 text-center sm:px-8">
-        <h2 className="font-display mx-auto max-w-2xl text-display-lg leading-tight">
-          Your car has been waiting for this.
-        </h2>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <a
-            href={bookHref()}
-            data-testid="closing-book"
-            className="rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
-          >
-            Book now
-          </a>
-          <QuoteLink className="rounded-full border border-ink-faint/40 px-8 py-3.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent">
-            Text {business.phoneDisplay}
-          </QuoteLink>
+            See Clay and Seal
+          </Link>
         </div>
       </div>
     </section>

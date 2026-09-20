@@ -47,6 +47,7 @@ export function MotionLayer() {
         };
         rafId = requestAnimationFrame(raf);
         lenis = instance;
+        (window as Window & { __lenis?: unknown }).__lenis = instance;
         document.documentElement.dataset.smoothScroll = "on";
       }
 
@@ -84,6 +85,7 @@ export function MotionLayer() {
         cancelAnimationFrame(rafId);
         ctx.revert();
         lenis?.destroy();
+        delete (window as Window & { __lenis?: unknown }).__lenis;
         delete document.documentElement.dataset.smoothScroll;
       };
     })();

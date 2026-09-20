@@ -1,4 +1,5 @@
 import { bookHref, callHref } from "@/content";
+import { AnchorLink } from "./AnchorLink";
 import { QuoteLink } from "./QuoteLink";
 
 /**
@@ -12,12 +13,12 @@ export function MobileActionBar() {
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <div className="grid grid-cols-3">
-        <a
+        <AnchorLink
           href={bookHref()}
           className="flex h-14 items-center justify-center text-sm font-semibold text-accent"
         >
           Book
-        </a>
+        </AnchorLink>
         <QuoteLink className="flex h-14 items-center justify-center border-x border-line text-sm font-medium text-ink">
           Text
         </QuoteLink>
