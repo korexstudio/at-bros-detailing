@@ -1,9 +1,5 @@
-import {
-  business,
-  galleryManifest,
-  quoteRequestHref,
-  squareBookingUrl,
-} from "@/content";
+import { business, galleryManifest, squareBookingUrl } from "@/content";
+import { QuoteLink } from "@/components/QuoteLink";
 import { ImageSlot } from "@/components/ImageSlot";
 import { detectImage } from "@/lib/site-images";
 
@@ -171,12 +167,9 @@ export function ClosingCta() {
           >
             Book now
           </a>
-          <a
-            href={quoteRequestHref()}
-            className="rounded-full border border-ink-faint/40 px-8 py-3.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
-          >
+          <QuoteLink className="rounded-full border border-ink-faint/40 px-8 py-3.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent">
             Text {business.phoneDisplay}
-          </a>
+          </QuoteLink>
         </div>
       </div>
     </section>

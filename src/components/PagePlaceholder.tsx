@@ -1,4 +1,5 @@
-import { quoteRequestHref, squareBookingUrl } from "@/content";
+import { squareBookingUrl } from "@/content";
+import { QuoteLink } from "./QuoteLink";
 
 /**
  * Styled stand-in for routes whose real page ships in a later ticket.
@@ -25,12 +26,9 @@ export function PagePlaceholder({
         >
           Book now
         </a>
-        <a
-          href={quoteRequestHref()}
-          className="rounded-full border border-line px-6 py-2.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
-        >
+        <QuoteLink className="rounded-full border border-line px-6 py-2.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent">
           Not sure? Text us
-        </a>
+        </QuoteLink>
       </div>
     </section>
   );

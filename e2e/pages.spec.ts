@@ -35,6 +35,23 @@ test.describe("Contact", () => {
   });
 });
 
+test.describe("Header", () => {
+  test("shows the phone number as a call link beside Book now on desktop only", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const phone = page.locator("header").locator(`a[href="tel:${business.phoneE164}"]`);
+    await expect(phone).toHaveCount(1);
+    await expect(phone).toHaveText(business.phoneDisplay);
+    if (test.info().project.name === "mobile") {
+      await expect(phone).toBeHidden();
+    } else {
+      await expect(phone).toBeVisible();
+    }
+    await expect(page.locator("header").getByRole("link", { name: "Book now" })).toBeVisible();
+  });
+});
+
 test.describe("No street address anywhere", () => {
   for (const path of ["/", "/about", "/contact", "/gallery", "/services"]) {
     test(`no address pattern on ${path}`, async ({ page }) => {

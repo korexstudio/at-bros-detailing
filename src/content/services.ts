@@ -107,6 +107,7 @@ export const services: Service[] = [
     duration: { minutes: 180, label: "3 hr" },
     basePrice: 150,
     largerVehiclesQuoted: true,
+    mostPopular: true,
     related: ["exterior-detail", "interior-detail", "clay-and-seal"],
   },
   {

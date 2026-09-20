@@ -16,6 +16,11 @@ describe("catalog shape", () => {
     expect(sellableServices).toHaveLength(7);
   });
 
+  it("badges exactly one Service as Most Popular: Full Detail", () => {
+    const badged = sellableServices.filter((s) => s.mostPopular);
+    expect(badged.map((s) => s.slug)).toEqual(["full-detail"]);
+  });
+
   it("has no duplicate slugs", () => {
     const slugs = services.map((s) => s.slug);
     expect(new Set(slugs).size).toBe(slugs.length);

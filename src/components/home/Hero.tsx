@@ -1,4 +1,5 @@
-import { quoteRequestHref, squareBookingUrl, business } from "@/content";
+import { squareBookingUrl, business } from "@/content";
+import { QuoteLink } from "@/components/QuoteLink";
 import { ImageSlot } from "@/components/ImageSlot";
 import { Wordmark } from "@/components/Wordmark";
 import { detectImage } from "@/lib/site-images";
@@ -51,12 +52,9 @@ export function Hero() {
           >
             Book now
           </a>
-          <a
-            href={quoteRequestHref()}
-            className="rounded-full border border-ink-faint/40 px-8 py-3.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
-          >
+          <QuoteLink className="rounded-full border border-ink-faint/40 px-8 py-3.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent">
             Text us a question
-          </a>
+          </QuoteLink>
         </div>
       </div>
     </section>

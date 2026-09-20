@@ -45,6 +45,24 @@ describe("quoteRequestHref", () => {
     expect(body).toContain("2021 4Runner");
   });
 
+  it("names the chosen Vehicle Size so the customer only adds make and model", () => {
+    const href = quoteRequestHref({ vehicleSize: "truckSuv" });
+    const body = decodeURIComponent(href.split("?&body=")[1]);
+    expect(body).toContain("My vehicle (Truck / Sprinter / SUV): ");
+  });
+
+  it("keeps both the Vehicle Size and a described vehicle when given both", () => {
+    const href = quoteRequestHref({ vehicleSize: "miniSuv", vehicle: "2021 RAV4" });
+    const body = decodeURIComponent(href.split("?&body=")[1]);
+    expect(body).toContain("My vehicle (Mini SUV): 2021 RAV4.");
+  });
+
+  it("leaves the vehicle prompt blank when no Vehicle Size was chosen", () => {
+    const body = decodeURIComponent(quoteRequestHref().split("?&body=")[1]);
+    expect(body).toContain("My vehicle: ");
+    expect(body).not.toContain("Sedan");
+  });
+
   it("contains no raw spaces or unencoded characters", () => {
     const href = quoteRequestHref({ vehicle: "Truck & trailer" });
     expect(href).not.toContain(" ");

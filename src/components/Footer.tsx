@@ -1,10 +1,6 @@
 import Link from "next/link";
-import {
-  business,
-  callHref,
-  quoteRequestHref,
-  squareBookingUrl,
-} from "@/content";
+import { business, callHref, squareBookingUrl } from "@/content";
+import { QuoteLink } from "./QuoteLink";
 import { Wordmark } from "./Wordmark";
 
 export function Footer() {
@@ -55,12 +51,9 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a
-                href={quoteRequestHref()}
-                className="text-ink-dim transition-colors hover:text-accent"
-              >
+              <QuoteLink className="text-ink-dim transition-colors hover:text-accent">
                 Text us for a quote
-              </a>
+              </QuoteLink>
             </li>
             <li>
               <a

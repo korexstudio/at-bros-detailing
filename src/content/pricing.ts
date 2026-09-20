@@ -34,6 +34,14 @@ export function priceFor(
   return { kind: "price", amount };
 }
 
+/**
+ * Whether Vehicle Size changes what this Service costs: it is priced
+ * per size, or larger vehicles are quoted instead of priced.
+ */
+export function sizesMatter(service: Service): boolean {
+  return Boolean(service.sizePrices) || service.largerVehiclesQuoted;
+}
+
 export function formatPrice(result: PriceResult): string {
   return result.kind === "price" ? `$${result.amount}` : "Quoted";
 }

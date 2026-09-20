@@ -50,6 +50,61 @@ test.describe("Home — the Transformation narrative", () => {
     await expect(prices.first()).toHaveAttribute("data-price", "$50");
   });
 
+  test("Vehicle Size selector re-prices the overview: Truck makes Exterior $80 and Full Detail Quoted", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const overview = page.locator('[data-section="services"]');
+    const exterior = overview.locator('[data-service="exterior-detail"] [data-price]');
+    const full = overview.locator('[data-service="full-detail"] [data-price]');
+    await expect(exterior).toHaveAttribute("data-price", "$65");
+    await expect(full).toHaveAttribute("data-price", "$150");
+    await overview.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
+    await expect(exterior).toHaveAttribute("data-price", "$80");
+    await expect(full).toHaveAttribute("data-price", "Quoted");
+  });
+
+  test("a full reload resets Vehicle Size and Service Mode to Sedan and Mobile", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const overview = page.locator('[data-section="services"]');
+    const exterior = overview.locator('[data-service="exterior-detail"] [data-price]');
+    await overview.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
+    await overview.getByRole("radio", { name: "Drop-off" }).click();
+    await expect(exterior).toHaveAttribute("data-price", "$65");
+    await page.reload();
+    await expect(exterior).toHaveAttribute("data-price", "$65");
+    await expect(overview.getByRole("button", { name: "Sedan" })).toHaveAttribute("aria-pressed", "true");
+    await expect(overview.getByRole("radio", { name: "Mobile" })).toBeChecked();
+  });
+
+  test("Full Detail carries the Most Popular badge and no other card does", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const overview = page.locator('[data-section="services"]');
+    const badges = overview.getByText("Most popular", { exact: true });
+    await expect(badges).toHaveCount(1);
+    await expect(
+      overview.locator('[data-service="full-detail"]').getByText("Most popular"),
+    ).toBeVisible();
+  });
+
+  test("mobile bar Text link carries the Vehicle Size once chosen, not before", async ({
+    page,
+  }) => {
+    test.skip(test.info().project.name !== "mobile", "the action bar is phone-only");
+    await page.goto("/");
+    const text = page.getByRole("navigation", { name: "Quick actions" }).getByRole("link", { name: "Text" });
+    await expect(text).not.toHaveAttribute("href", /My%20vehicle%20\(/);
+    await page
+      .locator('[data-section="services"]')
+      .getByRole("button", { name: "Mini SUV" })
+      .click();
+    await expect(text).toHaveAttribute("href", /My%20vehicle%20\(Mini%20SUV\)/);
+  });
+
   test("process chapters appear wash -> decontaminate -> protect -> interior", async ({
     page,
   }) => {

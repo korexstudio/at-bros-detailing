@@ -1,5 +1,5 @@
 import { business } from "./business";
-import type { Service, VehicleSize } from "./types";
+import { VEHICLE_SIZE_LABELS, type Service, type VehicleSize } from "./types";
 
 /**
  * Link builders. Square owns Bookings (ADR-0001): every "Book now" links out
@@ -25,6 +25,8 @@ export function squareBookingUrl(service?: Service, size?: VehicleSize): string 
 export interface QuoteRequestOptions {
   vehicle?: string;
   service?: Service;
+  /** The Vehicle Size the visitor explicitly chose, if any. */
+  vehicleSize?: VehicleSize;
 }
 
 /**
@@ -36,11 +38,11 @@ export function quoteRequestHref(options: QuoteRequestOptions = {}): string {
   if (options.service) {
     parts.push(`I'm interested in a ${options.service.name}.`);
   }
-  if (options.vehicle) {
-    parts.push(`My vehicle: ${options.vehicle}.`);
-  } else {
-    parts.push("My vehicle: ");
-  }
+  const sizeNote = options.vehicleSize
+    ? ` (${VEHICLE_SIZE_LABELS[options.vehicleSize]})`
+    : "";
+  const vehicle = options.vehicle ? `${options.vehicle}.` : "";
+  parts.push(`My vehicle${sizeNote}: ${vehicle}`);
   parts.push("Could I get a quote?");
   const body = encodeURIComponent(parts.join(" "));
   return `sms:${business.phoneE164}?&body=${body}`;

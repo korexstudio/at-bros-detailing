@@ -1,18 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import {
-  VEHICLE_SIZE_LABELS,
-  VEHICLE_SIZES,
-  priceFor,
-  quoteRequestHref,
-  squareBookingUrl,
-  type Service,
-  type VehicleSize,
-} from "@/content";
+import { priceFor, sizesMatter, squareBookingUrl, type Service } from "@/content";
 import { useServiceMode } from "@/lib/service-mode";
+import { useVehicleSize } from "@/lib/vehicle-size";
 import { PriceRoll } from "./PriceRoll";
+import { QuoteLink } from "./QuoteLink";
 import { ServiceModeToggle } from "./ServiceModeToggle";
+import { VehicleSizeSelector } from "./VehicleSizeSelector";
 
 /**
  * The Service page price block: Vehicle Size selector (only where sizes
@@ -23,10 +17,9 @@ import { ServiceModeToggle } from "./ServiceModeToggle";
  * Square item for the selected Vehicle Size where Square prices by size.
  */
 export function PriceBlock({ service }: { service: Service }) {
-  const [size, setSize] = useState<VehicleSize>("sedan");
+  const { size } = useVehicleSize();
   const { mode } = useServiceMode();
 
-  const sizesMatter = Boolean(service.sizePrices) || service.largerVehiclesQuoted;
   const price = priceFor(service, size, mode);
 
   return (
@@ -48,40 +41,21 @@ export function PriceBlock({ service }: { service: Service }) {
         <ServiceModeToggle />
       </div>
 
-      {sizesMatter && (
-        <fieldset className="mt-6">
-          <legend className="text-xs uppercase tracking-[0.25em] text-ink-faint">
-            Vehicle size
-          </legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {VEHICLE_SIZES.map((s) => (
-              <button
-                key={s}
-                type="button"
-                aria-pressed={size === s}
-                onClick={() => setSize(s)}
-                className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
-                  size === s
-                    ? "border-accent bg-accent/10 text-accent"
-                    : "border-line text-ink-dim hover:border-ink-faint hover:text-ink"
-                }`}
-              >
-                {VEHICLE_SIZE_LABELS[s]}
-              </button>
-            ))}
-          </div>
-        </fieldset>
+      {sizesMatter(service) && (
+        <div className="mt-6">
+          <VehicleSizeSelector />
+        </div>
       )}
 
       {price.kind === "quoted" && (
         <p className="mt-5 rounded-lg border border-accent-dim/40 bg-accent/5 px-4 py-3 text-sm text-ink-dim">
           Larger vehicles are quoted case-by-case — it takes one text.{" "}
-          <a
-            href={quoteRequestHref({ service })}
+          <QuoteLink
+            service={service}
             className="font-medium text-accent underline-offset-4 hover:underline"
           >
             Text us for your price
-          </a>
+          </QuoteLink>
           .
         </p>
       )}
@@ -96,13 +70,13 @@ export function PriceBlock({ service }: { service: Service }) {
       >
         Book now
       </a>
-      <a
-        href={quoteRequestHref({ service })}
+      <QuoteLink
+        service={service}
         data-testid="quote-request"
         className="rounded-full border border-line px-7 py-3 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
       >
         Not sure? Text us
-      </a>
+      </QuoteLink>
     </div>
     </>
   );

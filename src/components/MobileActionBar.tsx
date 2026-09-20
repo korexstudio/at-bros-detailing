@@ -1,4 +1,5 @@
-import { callHref, quoteRequestHref, squareBookingUrl } from "@/content";
+import { callHref, squareBookingUrl } from "@/content";
+import { QuoteLink } from "./QuoteLink";
 
 /**
  * The sticky mobile bar: Book / Text / Call, always reachable on phones.
@@ -17,12 +18,9 @@ export function MobileActionBar() {
         >
           Book
         </a>
-        <a
-          href={quoteRequestHref()}
-          className="flex h-14 items-center justify-center border-x border-line text-sm font-medium text-ink"
-        >
+        <QuoteLink className="flex h-14 items-center justify-center border-x border-line text-sm font-medium text-ink">
           Text
-        </a>
+        </QuoteLink>
         <a
           href={callHref()}
           className="flex h-14 items-center justify-center text-sm font-medium text-ink"

@@ -22,6 +22,10 @@ _Avoid_: Extra, upsell
 The tier a customer's vehicle falls into for pricing: Sedan, Mini SUV, or Truck/Sprinter/SUV.
 _Avoid_: Vehicle class, car type
 
+**Most Popular**:
+The one Service the owner reports sells most on Square. Currently Full Detail.
+_Avoid_: Featured, recommended, best value
+
 **Service Mode**:
 Whether the job is done Mobile (the detailer travels to the customer) or Drop-off (the customer brings the vehicle to the detailer). Drop-off earns a fixed discount.
 _Avoid_: Location type, delivery method

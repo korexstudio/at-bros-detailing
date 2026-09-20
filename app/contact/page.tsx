@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import {
-  business,
-  callHref,
-  quoteRequestHref,
-  squareBookingUrl,
-} from "@/content";
+import { business, callHref, squareBookingUrl } from "@/content";
+import { QuoteLink } from "@/components/QuoteLink";
 
 export const metadata: Metadata = {
   title: "Contact — call, text, or book",
@@ -29,13 +25,12 @@ export default function ContactPage() {
       </p>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <a
-          href={quoteRequestHref()}
+        <QuoteLink
           data-testid="contact-text"
           className="rounded-full bg-accent px-7 py-3 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
         >
           Text us a Quote Request
-        </a>
+        </QuoteLink>
         <a
           href={callHref()}
           data-testid="contact-call"

@@ -5,6 +5,7 @@ import { business } from "@/content";
 import { SITE_URL, localBusinessJsonLd } from "@/content/seo";
 import { MotionPreferenceProvider } from "@/lib/motion";
 import { ServiceModeProvider } from "@/lib/service-mode";
+import { VehicleSizeProvider } from "@/lib/vehicle-size";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileActionBar } from "@/components/MobileActionBar";
@@ -53,12 +54,14 @@ export default function RootLayout({
         </a>
         <MotionPreferenceProvider>
           <ServiceModeProvider>
-            <Header />
-            <main id="main" className="pt-16">
-              {children}
-            </main>
-            <Footer />
-            <MobileActionBar />
+            <VehicleSizeProvider>
+              <Header />
+              <main id="main" className="pt-16">
+                {children}
+              </main>
+              <Footer />
+              <MobileActionBar />
+            </VehicleSizeProvider>
           </ServiceModeProvider>
         </MotionPreferenceProvider>
         {/* Cookieless page analytics — no consent banner needed. */}

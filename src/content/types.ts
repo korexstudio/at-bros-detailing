@@ -83,6 +83,11 @@ export interface Service {
   largerVehiclesQuoted: boolean;
   /** Slug of the Service this is an Add-on to, if it is one. */
   addOnFor?: string;
+  /**
+   * The Most Popular Service: the one the owner reports sells most on
+   * Square, badged wherever Services are listed. Exactly one is flagged.
+   */
+  mostPopular?: boolean;
   /** Slugs of related Services to cross-link from the Service page. */
   related: string[];
 }

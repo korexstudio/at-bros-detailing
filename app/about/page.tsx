@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { business, quoteRequestHref, squareBookingUrl } from "@/content";
+import { business, squareBookingUrl } from "@/content";
+import { QuoteLink } from "@/components/QuoteLink";
 import { ImageSlot } from "@/components/ImageSlot";
 import { detectImage } from "@/lib/site-images";
 
@@ -78,12 +79,9 @@ export default function AboutPage() {
         >
           Book now
         </a>
-        <a
-          href={quoteRequestHref()}
-          className="rounded-full border border-line px-7 py-3 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
-        >
+        <QuoteLink className="rounded-full border border-line px-7 py-3 text-sm text-ink transition-colors hover:border-accent hover:text-accent">
           Text us
-        </a>
+        </QuoteLink>
       </div>
     </article>
   );
