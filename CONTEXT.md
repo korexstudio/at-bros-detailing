@@ -37,7 +37,7 @@ A visitor asking the business to price a job, sent by text or call. Used when th
 _Avoid_: Lead, enquiry, contact form
 
 **Booking**:
-An appointment for a specific Service made through the business's Square booking page.
+An appointment for a specific Service, requested by a pre-filled text to the business or made directly on its Square booking page.
 _Avoid_: Appointment, reservation, order
 
 ### Showing the work

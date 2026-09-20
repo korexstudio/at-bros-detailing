@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by ADR-0002
 ---
 
 # Square owns bookings; the site never does

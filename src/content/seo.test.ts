@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { sellableServices } from "./index";
 import { localBusinessJsonLd, to24h } from "./seo";
 
 describe("to24h", () => {
@@ -38,7 +39,7 @@ describe("localBusinessJsonLd", () => {
 
   it("offers every sellable Service with its page URL", () => {
     const offers = jsonLd.makesOffer as Array<{ url: string }>;
-    expect(offers).toHaveLength(7);
+    expect(offers).toHaveLength(sellableServices.length);
     expect(offers.some((o) => o.url.endsWith("/services/exterior-detail"))).toBe(
       true,
     );

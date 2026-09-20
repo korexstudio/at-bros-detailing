@@ -35,6 +35,7 @@ function detectStageImages(): StageImages {
   return images;
 }
 import { ServicesOverview } from "@/components/home/ServicesOverview";
+import { BookByText } from "@/components/BookByText";
 
 /**
  * The Transformation narrative: a car goes from dirty to finished as you
@@ -50,6 +51,7 @@ export default function Home() {
       <WashSequence images={detectStageImages()} />
       <BeforeAfterStrip />
       <ServicesOverview />
+      <BookByText />
       <WhyAtBros />
       <ServiceArea />
       <ClosingCta />

@@ -1,4 +1,4 @@
-import { business, galleryManifest, squareBookingUrl } from "@/content";
+import { bookHref, business, galleryManifest } from "@/content";
 import { QuoteLink } from "@/components/QuoteLink";
 import { ImageSlot } from "@/components/ImageSlot";
 import { detectImage } from "@/lib/site-images";
@@ -161,7 +161,7 @@ export function ClosingCta() {
         </h2>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <a
-            href={squareBookingUrl()}
+            href={bookHref()}
             data-testid="closing-book"
             className="rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
           >

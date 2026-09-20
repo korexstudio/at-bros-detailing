@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { business, callHref, squareBookingUrl } from "@/content";
+import { bookHref, business, callHref } from "@/content";
 import { QuoteLink } from "./QuoteLink";
 import { Wordmark } from "./Wordmark";
 
@@ -67,7 +67,7 @@ export function Footer() {
             </li>
             <li className="pt-2">
               <a
-                href={squareBookingUrl()}
+                href={bookHref()}
                 className="inline-block rounded-full border border-accent px-4 py-1.5 text-accent transition-colors hover:bg-accent hover:text-base"
               >
                 Book now

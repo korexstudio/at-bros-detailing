@@ -12,8 +12,8 @@ import {
 } from "./index";
 
 describe("catalog shape", () => {
-  it("has exactly seven sellable Services", () => {
-    expect(sellableServices).toHaveLength(7);
+  it("has exactly six sellable Services (Square, 2026-09-19)", () => {
+    expect(sellableServices).toHaveLength(6);
   });
 
   it("badges exactly one Service as Most Popular: Full Detail", () => {
@@ -47,6 +47,21 @@ describe("catalog shape", () => {
     const addOns = addOnsFor(interior);
     expect(addOns.map((a) => a.slug)).toEqual(["seat-carpet-shampoo"]);
     expect(addOns[0].basePrice).toBe(50);
+  });
+
+  it("Paint Enhancement carries the 3-Year Ceramic Coating as its Add-on", () => {
+    const paint = serviceBySlug("paint-enhancement")!;
+    const addOns = addOnsFor(paint);
+    expect(addOns.map((a) => a.slug)).toEqual(["ceramic-coating"]);
+    expect(addOns[0].basePrice).toBe(200);
+  });
+
+  it("Basic Wash is gone: Square no longer lists it", () => {
+    expect(serviceBySlug("basic-wash")).toBeUndefined();
+  });
+
+  it("Drop-off takes $20 off, as Square lists it", () => {
+    expect(DROP_OFF_DISCOUNT).toBe(20);
   });
 });
 
@@ -94,7 +109,7 @@ describe("priceFor — every Service x Vehicle Size x Service Mode", () => {
 
   it("matches the captured Square prices (Mobile)", () => {
     const exterior = serviceBySlug("exterior-detail")!;
-    // Square booking page as re-captured 2026-09-05.
+    // Square booking page as re-captured 2026-09-19.
     expect(priceFor(exterior, "sedan", "mobile")).toEqual({ kind: "price", amount: 65 });
     expect(priceFor(exterior, "miniSuv", "mobile")).toEqual({ kind: "price", amount: 75 });
     expect(priceFor(exterior, "truckSuv", "mobile")).toEqual({ kind: "price", amount: 80 });
@@ -102,8 +117,8 @@ describe("priceFor — every Service x Vehicle Size x Service Mode", () => {
     expect(priceFor(serviceBySlug("full-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 150 });
     expect(priceFor(serviceBySlug("clay-and-seal")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 120 });
     expect(priceFor(serviceBySlug("paint-enhancement")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 250 });
-    expect(priceFor(serviceBySlug("maintenance-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 80 });
-    expect(priceFor(serviceBySlug("basic-wash")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 40 });
+    expect(priceFor(serviceBySlug("maintenance-detail")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 100 });
+    expect(priceFor(serviceBySlug("ceramic-coating")!, "sedan", "mobile")).toEqual({ kind: "price", amount: 200 });
   });
 
   it("larger vehicles are quoted on Full Detail and Interior Detail (open owner questions)", () => {

@@ -22,6 +22,17 @@ export const SERVICE_MODE_LABELS: Record<ServiceMode, string> = {
   dropoff: "Drop-off",
 };
 
+/** How soon the customer wants the Booking, as offered on the Book by text form. */
+export type BookingWhen = "asap" | "thisWeek" | "flexible";
+
+export const BOOKING_WHENS: readonly BookingWhen[] = ["asap", "thisWeek", "flexible"];
+
+export const BOOKING_WHEN_LABELS: Record<BookingWhen, string> = {
+  asap: "As soon as possible",
+  thisWeek: "This week",
+  flexible: "I'm flexible",
+};
+
 /** A price in whole US dollars. */
 export type Dollars = number;
 

@@ -2,7 +2,7 @@ import { PricingControls } from "@/components/PricingControls";
 import { ServiceCards } from "@/components/ServiceCards";
 
 /**
- * All seven Services with live prices, re-rendered by the global
+ * Every sellable Service with live prices, re-rendered by the global
  * Vehicle Size and Service Mode choices.
  */
 export function ServicesOverview() {

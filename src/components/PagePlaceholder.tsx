@@ -1,4 +1,4 @@
-import { squareBookingUrl } from "@/content";
+import { bookHref } from "@/content";
 import { QuoteLink } from "./QuoteLink";
 
 /**
@@ -21,7 +21,7 @@ export function PagePlaceholder({
       <p className="mt-4 max-w-prose text-ink-dim">{note}</p>
       <div className="mt-8 flex flex-wrap gap-3">
         <a
-          href={squareBookingUrl()}
+          href={bookHref()}
           className="rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-base transition-colors hover:bg-accent-bright"
         >
           Book now

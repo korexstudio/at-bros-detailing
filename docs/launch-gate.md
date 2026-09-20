@@ -23,13 +23,16 @@ a preview and only gets the report.
       real photos as AVIF or WebP sized close to their largest rendered
       width (~1600px) — the placeholders are SVGs, so format discipline
       starts when real rasters land.
-- [ ] **Owner copy approval** — the owner reads every page and signs off.
-      Flip `ownerCopyApproved`.
+- [x] **Owner copy approval** — the owner reads every page and signs off.
+      Flip `ownerCopyApproved`. _Done 2026-09-19: approved via the owner's
+      contact._
 - [ ] **Open pricing questions answered** (see
       `docs/research/square-booking-services.md`): Full Detail and Interior
       Detail on larger vehicles — fixed bump or quoted? Update
       `src/content/services.ts` accordingly, then flip
-      `pricingQuestionsAnswered`.
+      `pricingQuestionsAnswered`. _Done 2026-09-19: the owner's answer is
+      "copy Square". Square lists no larger-vehicle items for these, so they
+      stay quoted; the catalog was re-synced to Square the same day._
 - [x] **Square per-Service deep-link ids captured** — open each Service on
       the Square booking page, copy its id from the URL, fill
       `squareServiceId` in `src/content/services.ts`, then flip

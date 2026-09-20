@@ -1,5 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { SQUARE_BOOKING_PAGE, business, sellableServices } from "../src/content";
+import {
+  DROP_OFF_DISCOUNT,
+  business,
+  sellableServices,
+  serviceBySlug,
+  squareBookingUrl,
+} from "../src/content";
 
 test.describe("Home — the Transformation narrative", () => {
   test("all sections render in order", async ({ page }) => {
@@ -13,29 +19,24 @@ test.describe("Home — the Transformation narrative", () => {
       "process",
       "before-after",
       "services",
+      "book",
       "why",
       "service-area",
       "closing",
     ]);
   });
 
-  test("hero and closing CTAs link to Square; a Quote Request CTA is present", async ({
+  test("hero and closing CTAs lead to Book by text; a Quote Request CTA is present", async ({
     page,
   }) => {
     await page.goto("/");
-    await expect(page.getByTestId("hero-book")).toHaveAttribute(
-      "href",
-      SQUARE_BOOKING_PAGE,
-    );
-    await expect(page.getByTestId("closing-book")).toHaveAttribute(
-      "href",
-      SQUARE_BOOKING_PAGE,
-    );
+    await expect(page.getByTestId("hero-book")).toHaveAttribute("href", "/#book");
+    await expect(page.getByTestId("closing-book")).toHaveAttribute("href", "/#book");
     const smsLinks = page.locator('a[href^="sms:"]');
     expect(await smsLinks.count()).toBeGreaterThan(0);
   });
 
-  test("services overview shows all seven with prices and a working toggle", async ({
+  test("services overview shows every sellable Service with prices and a working toggle", async ({
     page,
   }) => {
     await page.goto("/");
@@ -43,11 +44,11 @@ test.describe("Home — the Transformation narrative", () => {
     for (const s of sellableServices) {
       await expect(overview.getByText(s.name, { exact: true })).toBeVisible();
     }
-    // Exterior Detail sedan: $65 mobile -> $50 drop-off (Square, 2026-09-05).
+    // Exterior Detail sedan: $65 mobile, minus the drop-off discount (Square, 2026-09-19).
     const prices = overview.locator("[data-price]");
     await expect(prices.first()).toHaveAttribute("data-price", "$65");
     await overview.getByRole("radio", { name: "Drop-off" }).click();
-    await expect(prices.first()).toHaveAttribute("data-price", "$50");
+    await expect(prices.first()).toHaveAttribute("data-price", `$${65 - DROP_OFF_DISCOUNT}`);
   });
 
   test("Vehicle Size selector re-prices the overview: Truck makes Exterior $80 and Full Detail Quoted", async ({
@@ -72,7 +73,7 @@ test.describe("Home — the Transformation narrative", () => {
     const exterior = overview.locator('[data-service="exterior-detail"] [data-price]');
     await overview.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
     await overview.getByRole("radio", { name: "Drop-off" }).click();
-    await expect(exterior).toHaveAttribute("data-price", "$65");
+    await expect(exterior).toHaveAttribute("data-price", `$${80 - DROP_OFF_DISCOUNT}`);
     await page.reload();
     await expect(exterior).toHaveAttribute("data-price", "$65");
     await expect(overview.getByRole("button", { name: "Sedan" })).toHaveAttribute("aria-pressed", "true");
@@ -103,6 +104,33 @@ test.describe("Home — the Transformation narrative", () => {
       .getByRole("button", { name: "Mini SUV" })
       .click();
     await expect(text).toHaveAttribute("href", /My%20vehicle%20\(Mini%20SUV\)/);
+  });
+
+  test("Book by text composes a prefilled text from every choice, with Square one tap away", async ({
+    page,
+  }) => {
+    const clay = serviceBySlug("clay-and-seal")!;
+    await page.goto("/");
+    const book = page.locator('[data-section="book"]');
+    await book.getByTestId("book-service").selectOption("clay-and-seal");
+    await book.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
+    await book.getByRole("radio", { name: "Drop-off" }).click();
+    await book.getByRole("radio", { name: "This week" }).click();
+    await book.getByTestId("book-name").fill("Sam");
+    await book.getByTestId("book-vehicle").fill("2019 Tacoma");
+    await expect(book.locator("[data-price]")).toHaveAttribute(
+      "data-price",
+      `$${120 - DROP_OFF_DISCOUNT}`,
+    );
+    const href = (await book.getByTestId("book-text").getAttribute("href")) ?? "";
+    expect(href.startsWith(`sms:${business.phoneE164}?&body=`)).toBe(true);
+    expect(decodeURIComponent(href.split("?&body=")[1])).toBe(
+      "Hi AT Bros, this is Sam! I'd like to book a Clay and Seal for my Truck / Sprinter / SUV, Drop-off. Timing: This week. My vehicle: 2019 Tacoma.",
+    );
+    await expect(book.getByTestId("book-square")).toHaveAttribute(
+      "href",
+      squareBookingUrl(clay, "truckSuv"),
+    );
   });
 
   test("process chapters appear wash -> decontaminate -> protect -> interior", async ({

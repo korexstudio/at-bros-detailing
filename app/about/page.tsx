@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { business, squareBookingUrl } from "@/content";
+import { bookHref, business } from "@/content";
 import { QuoteLink } from "@/components/QuoteLink";
 import { ImageSlot } from "@/components/ImageSlot";
 import { detectImage } from "@/lib/site-images";
@@ -73,7 +73,7 @@ export default function AboutPage() {
 
       <div className="mt-12 flex flex-wrap gap-3">
         <a
-          href={squareBookingUrl()}
+          href={bookHref()}
           data-testid="book-now"
           className="rounded-full bg-accent px-7 py-3 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
         >

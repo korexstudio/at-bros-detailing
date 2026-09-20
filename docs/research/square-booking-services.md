@@ -28,6 +28,24 @@ site's `squareBookingUrl()` appends it to the services URL above.
 Each item also carries a variation token (e.g. Sedan `BTTBIMWI3ZZIRPWOHXP6BMYE`);
 the booking URL uses the item token, so only that is stored in the catalog.
 
+### Changes seen 2026-09-19 (live booking page, re-captured)
+
+Every token above is unchanged. Four things moved, and the catalog now
+mirrors them:
+
+- **Drop off Discount** is $20 (was $15).
+- **Maintenance Detail** is $100 (was $80). Square's copy now opens
+  "NOT FOR FIRST TIME CUSTOMERS".
+- **Basic Wash** is no longer listed. Removed from the catalog.
+- **3 Year Ceramic Coating** — $200 · 30 min · `GGJ3FTQ2IVM7Q3SNWWBO7QEK`.
+  Square's copy: "Very highly recommended to get the one step correction so
+  that the ceramic coating bonds properly to the painted surfaces." Added as
+  an Add-on to Paint Enhancement.
+
+The open questions below are settled by the owner's instruction to copy
+Square's pricing as-is: with no larger-vehicle items on Square for Full
+Detail or Interior Detail, both stay quoted.
+
 ### Services as captured 2026-08-30 (superseded)
 
 | Service | Price | Duration |

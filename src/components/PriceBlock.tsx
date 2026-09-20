@@ -1,6 +1,12 @@
 "use client";
 
-import { priceFor, sizesMatter, squareBookingUrl, type Service } from "@/content";
+import {
+  bookingTextHref,
+  priceFor,
+  sizesMatter,
+  squareBookingUrl,
+  type Service,
+} from "@/content";
 import { useServiceMode } from "@/lib/service-mode";
 import { useVehicleSize } from "@/lib/vehicle-size";
 import { PriceRoll } from "./PriceRoll";
@@ -13,14 +19,20 @@ import { VehicleSizeSelector } from "./VehicleSizeSelector";
  * matter), the Service Mode toggle, and the price itself — rolling on
  * every change. "Quoted" cases hand off to the Quote Request CTA.
  *
- * The primary actions live here too, so "Book now" deep-links to the
- * Square item for the selected Vehicle Size where Square prices by size.
+ * The primary actions live here too. "Book now" is a pre-filled text
+ * naming this Service and the visitor's choices (ADR-0002); the Square
+ * deep link for the selected Vehicle Size stays one tap away.
  */
 export function PriceBlock({ service }: { service: Service }) {
-  const { size } = useVehicleSize();
+  const { size, chosen } = useVehicleSize();
   const { mode } = useServiceMode();
 
   const price = priceFor(service, size, mode);
+  const bookHref = bookingTextHref({
+    service,
+    vehicleSize: chosen ? size : undefined,
+    serviceMode: mode,
+  });
 
   return (
     <>
@@ -64,7 +76,7 @@ export function PriceBlock({ service }: { service: Service }) {
     {/* Primary actions */}
     <div className="mt-6 flex flex-wrap gap-3">
       <a
-        href={squareBookingUrl(service, size)}
+        href={bookHref}
         data-testid="book-now"
         className="rounded-full bg-accent px-7 py-3 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
       >
@@ -78,6 +90,18 @@ export function PriceBlock({ service }: { service: Service }) {
         Not sure? Text us
       </QuoteLink>
     </div>
+    <p className="mt-4 text-xs text-ink-faint">
+      Book now opens a text with this Service filled in. Prefer to book
+      online?{" "}
+      <a
+        href={squareBookingUrl(service, size)}
+        data-testid="book-square"
+        className="text-ink-dim underline-offset-4 hover:text-accent hover:underline"
+      >
+        Use our Square page
+      </a>
+      .
+    </p>
     </>
   );
 }

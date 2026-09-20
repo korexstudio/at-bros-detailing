@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { business, callHref, squareBookingUrl } from "@/content";
+import { bookHref, business, callHref } from "@/content";
 import { Wordmark } from "./Wordmark";
 
 const NAV = [
@@ -37,7 +37,7 @@ export function Header() {
             {business.phoneDisplay}
           </a>
           <a
-            href={squareBookingUrl()}
+            href={bookHref()}
             className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-base transition-colors hover:bg-accent-bright"
           >
             Book now

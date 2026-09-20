@@ -9,7 +9,7 @@ import type { PriceResult, Service, ServiceMode, VehicleSize } from "./types";
  * - Size-priced Services price per Vehicle Size; Services flagged
  *   `largerVehiclesQuoted` return a "quoted" marker for non-sedans.
  */
-export const DROP_OFF_DISCOUNT = 15;
+export const DROP_OFF_DISCOUNT = 20;
 
 export function priceFor(
   service: Service,

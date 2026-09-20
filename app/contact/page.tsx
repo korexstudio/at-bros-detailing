@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { business, callHref, squareBookingUrl } from "@/content";
+import { bookHref, business, callHref } from "@/content";
 import { QuoteLink } from "@/components/QuoteLink";
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export default function ContactPage() {
           Tap to call
         </a>
         <a
-          href={squareBookingUrl()}
+          href={bookHref()}
           data-testid="book-now"
           className="rounded-full border border-accent px-7 py-3 text-sm text-accent transition-colors hover:bg-accent hover:text-base"
         >

@@ -26,11 +26,19 @@ test.describe("Services index", () => {
 
 test.describe("Service pages", () => {
   for (const service of sellableServices) {
-    test(`${service.slug}: Book now deep-links to Square`, async ({ page }) => {
+    test(`${service.slug}: Book now is a prefilled text naming the Service; Square stays one tap away`, async ({
+      page,
+    }) => {
       await page.goto(`/services/${service.slug}`);
       const bookNow = page.getByTestId("book-now");
       await expect(bookNow).toBeVisible();
-      await expect(bookNow).toHaveAttribute("href", squareBookingUrl(service));
+      const href = (await bookNow.getAttribute("href")) ?? "";
+      expect(href.startsWith("sms:+16267882004?&body=")).toBe(true);
+      expect(decodeURIComponent(href.split("?&body=")[1])).toContain(`book a ${service.name}`);
+      await expect(page.getByTestId("book-square")).toHaveAttribute(
+        "href",
+        squareBookingUrl(service),
+      );
     });
   }
 
@@ -68,12 +76,12 @@ test.describe("Service pages", () => {
     await expect(price).toHaveAttribute("data-price", "$80");
   });
 
-  test("Book now follows the selected Vehicle Size on Exterior Detail", async ({
+  test("the Square link follows the selected Vehicle Size on Exterior Detail", async ({
     page,
   }) => {
     const exterior = sellableServices.find((s) => s.slug === "exterior-detail")!;
     await page.goto("/services/exterior-detail");
-    const bookNow = page.getByTestId("book-now");
+    const bookNow = page.getByTestId("book-square");
     await expect(bookNow).toHaveAttribute("href", squareBookingUrl(exterior, "sedan"));
     await page.getByRole("button", { name: "Mini SUV" }).click();
     await expect(bookNow).toHaveAttribute("href", squareBookingUrl(exterior, "miniSuv"));
@@ -103,7 +111,7 @@ test.describe("Service pages", () => {
   test("Vehicle Size selector is absent where sizes don't exist", async ({
     page,
   }) => {
-    await page.goto("/services/basic-wash");
+    await page.goto("/services/maintenance-detail");
     await expect(page.getByRole("button", { name: "Mini SUV" })).toHaveCount(0);
   });
 
@@ -116,7 +124,7 @@ test.describe("Service pages", () => {
     await overview.getByRole("button", { name: "Truck / Sprinter / SUV" }).click();
     await overview.locator('[data-service="exterior-detail"] a').first().click();
     await expect(page).toHaveURL(/\/services\/exterior-detail$/);
-    await expect(page.getByTestId("book-now")).toHaveAttribute(
+    await expect(page.getByTestId("book-square")).toHaveAttribute(
       "href",
       squareBookingUrl(exterior, "truckSuv"),
     );
@@ -137,5 +145,10 @@ test.describe("Service pages", () => {
   test("Interior Detail shows its Add-on", async ({ page }) => {
     await page.goto("/services/interior-detail");
     await expect(page.getByText("Seat/Carpet Shampoo")).toBeVisible();
+  });
+
+  test("Paint Enhancement shows the 3-Year Ceramic Coating Add-on", async ({ page }) => {
+    await page.goto("/services/paint-enhancement");
+    await expect(page.getByText("3-Year Ceramic Coating")).toBeVisible();
   });
 });

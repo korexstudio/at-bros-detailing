@@ -1,4 +1,4 @@
-import { callHref, squareBookingUrl } from "@/content";
+import { bookHref, callHref } from "@/content";
 import { QuoteLink } from "./QuoteLink";
 
 /**
@@ -13,7 +13,7 @@ export function MobileActionBar() {
     >
       <div className="grid grid-cols-3">
         <a
-          href={squareBookingUrl()}
+          href={bookHref()}
           className="flex h-14 items-center justify-center text-sm font-semibold text-accent"
         >
           Book

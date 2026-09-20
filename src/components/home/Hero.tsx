@@ -1,4 +1,4 @@
-import { squareBookingUrl, business } from "@/content";
+import { bookHref, business } from "@/content";
 import { QuoteLink } from "@/components/QuoteLink";
 import { ImageSlot } from "@/components/ImageSlot";
 import { Wordmark } from "@/components/Wordmark";
@@ -46,7 +46,7 @@ export function Hero() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href={squareBookingUrl()}
+            href={bookHref()}
             data-testid="hero-book"
             className="rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-base transition-colors hover:bg-accent-bright"
           >

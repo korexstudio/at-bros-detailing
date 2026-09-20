@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   SQUARE_BOOKING_PAGE,
   business,
+  bookHref,
+  bookingTextHref,
   callHref,
   quoteRequestHref,
   services,
@@ -19,7 +21,7 @@ describe("squareBookingUrl", () => {
   });
 
   it("deep-links when a Square service id is present", () => {
-    const service = { ...serviceBySlug("basic-wash")!, squareServiceId: "ABC123" };
+    const service = { ...serviceBySlug("maintenance-detail")!, squareServiceId: "ABC123" };
     expect(squareBookingUrl(service)).toBe(`${SQUARE_BOOKING_PAGE}/ABC123`);
   });
 
@@ -67,6 +69,45 @@ describe("quoteRequestHref", () => {
     const href = quoteRequestHref({ vehicle: "Truck & trailer" });
     expect(href).not.toContain(" ");
     expect(href).not.toContain("&body=Hi AT");
+  });
+});
+
+describe("bookingTextHref", () => {
+  const body = (href: string) => decodeURIComponent(href.split("?&body=")[1]);
+
+  it("is an sms: URL to the business phone", () => {
+    expect(bookingTextHref().startsWith(`sms:${business.phoneE164}?&body=`)).toBe(true);
+  });
+
+  it("names the Service, Vehicle Size, Service Mode, timing, vehicle, and sender", () => {
+    const text = body(
+      bookingTextHref({
+        service: serviceBySlug("full-detail")!,
+        vehicleSize: "miniSuv",
+        serviceMode: "dropoff",
+        when: "thisWeek",
+        vehicle: "2021 RAV4",
+        name: "Sam",
+      }),
+    );
+    expect(text).toBe(
+      "Hi AT Bros, this is Sam! I'd like to book a Full Detail for my Mini SUV, Drop-off. Timing: This week. My vehicle: 2021 RAV4.",
+    );
+  });
+
+  it("leaves the vehicle as a prompt and skips what was not given", () => {
+    const text = body(bookingTextHref({ service: serviceBySlug("clay-and-seal")! }));
+    expect(text).toBe("Hi AT Bros! I'd like to book a Clay and Seal. My vehicle: ");
+  });
+
+  it("contains no raw spaces", () => {
+    expect(bookingTextHref({ name: "A B", vehicle: "C & D" })).not.toContain(" ");
+  });
+});
+
+describe("bookHref", () => {
+  it("points at the Book by text section on the home page", () => {
+    expect(bookHref()).toBe("/#book");
   });
 });
 

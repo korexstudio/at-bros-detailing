@@ -1,9 +1,18 @@
 import { business } from "./business";
-import { VEHICLE_SIZE_LABELS, type Service, type VehicleSize } from "./types";
+import {
+  BOOKING_WHEN_LABELS,
+  SERVICE_MODE_LABELS,
+  VEHICLE_SIZE_LABELS,
+  type BookingWhen,
+  type Service,
+  type ServiceMode,
+  type VehicleSize,
+} from "./types";
 
 /**
- * Link builders. Square owns Bookings (ADR-0001): every "Book now" links out
- * to the Square booking page. Quote Requests go by text or call.
+ * Link builders. Bookings are requested by pre-filled text (ADR-0002);
+ * Square stays the online option and the price source of truth. Quote
+ * Requests go by text or call.
  */
 
 /** The Square booking page (services list), captured 2026-08-30. */
@@ -44,6 +53,43 @@ export function quoteRequestHref(options: QuoteRequestOptions = {}): string {
   const vehicle = options.vehicle ? `${options.vehicle}.` : "";
   parts.push(`My vehicle${sizeNote}: ${vehicle}`);
   parts.push("Could I get a quote?");
+  const body = encodeURIComponent(parts.join(" "));
+  return `sms:${business.phoneE164}?&body=${body}`;
+}
+
+/** Where every "Book now" leads: the Book by text section on the home page. */
+export function bookHref(): string {
+  return "/#book";
+}
+
+export interface BookingTextOptions {
+  service?: Service;
+  vehicleSize?: VehicleSize;
+  serviceMode?: ServiceMode;
+  when?: BookingWhen;
+  /** Year, make, model as the customer typed it. */
+  vehicle?: string;
+  name?: string;
+}
+
+/**
+ * A Booking request: a pre-filled text to the business carrying everything
+ * the visitor chose, with the vehicle left as a prompt when not given.
+ */
+export function bookingTextHref(options: BookingTextOptions = {}): string {
+  const name = options.name?.trim();
+  const parts = [name ? `Hi AT Bros, this is ${name}!` : "Hi AT Bros!"];
+  const what = options.service ? ` a ${options.service.name}` : "";
+  const size = options.vehicleSize
+    ? ` for my ${VEHICLE_SIZE_LABELS[options.vehicleSize]}`
+    : "";
+  const mode = options.serviceMode
+    ? `, ${SERVICE_MODE_LABELS[options.serviceMode]}`
+    : "";
+  parts.push(`I'd like to book${what}${size}${mode}.`);
+  if (options.when) parts.push(`Timing: ${BOOKING_WHEN_LABELS[options.when]}.`);
+  const vehicle = options.vehicle?.trim();
+  parts.push(vehicle ? `My vehicle: ${vehicle}.` : "My vehicle: ");
   const body = encodeURIComponent(parts.join(" "));
   return `sms:${business.phoneE164}?&body=${body}`;
 }

@@ -3,7 +3,7 @@ import type { Service } from "./types";
 /**
  * The Service catalog: the single typed source of truth for everything the
  * UI sells. Prices, durations, and Square item tokens mirror the Square
- * booking page as captured on 2026-09-05 in
+ * booking page as captured on 2026-09-19 in
  * docs/research/square-booking-services.md — update Square first, then here.
  *
  * Descriptions are rewritten in the site's voice; every real fact from the
@@ -39,7 +39,7 @@ export const services: Service[] = [
     basePrice: 65,
     sizePrices: { sedan: 65, miniSuv: 75, truckSuv: 80 },
     largerVehiclesQuoted: false,
-    related: ["clay-and-seal", "full-detail", "basic-wash"],
+    related: ["clay-and-seal", "full-detail", "maintenance-detail"],
   },
   {
     slug: "interior-detail",
@@ -171,33 +171,33 @@ export const services: Service[] = [
       "Carpets blown out and vacuumed",
     ],
     duration: { minutes: 80, label: "1 hr 20 min" },
-    basePrice: 80,
+    basePrice: 100,
     largerVehiclesQuoted: false,
-    related: ["basic-wash", "exterior-detail", "interior-detail"],
+    related: ["exterior-detail", "interior-detail"],
   },
   {
-    slug: "basic-wash",
-    name: "Basic Wash",
-    squareItemName: "Basic Wash",
-    squareServiceId: "VNWVGEFF6A7G5DZ55TRWEX6W",
-    pitch: "Foaming pre-rinse and a careful hand wash — no protection applied.",
+    slug: "ceramic-coating",
+    name: "3-Year Ceramic Coating",
+    squareItemName: "3 Year Ceramic Coating",
+    squareServiceId: "GGJ3FTQ2IVM7Q3SNWWBO7QEK",
+    pitch:
+      "Three years of protection instead of months — applied over a Paint Enhancement so it bonds to corrected paint.",
     description: [
-      "A foaming pre-rinse and a careful hand wash. No paint protection is applied and wheels are not cleaned — this is the honest entry point, nothing more.",
-      "We'll say it plainly: paint with zero protection ages faster. Having protection applied periodically prolongs the life of the paint against UV radiation and maintains the value of the car — when you're ready, the Exterior Detail is the upgrade.",
+      "A ceramic coating rated for three years, where a sealant lasts months. We strongly recommend it on top of a Paint Enhancement: the one-step correction leaves the paint clean and level, which is what lets the coating bond properly to the painted surfaces.",
     ],
     included: [
-      "Foaming pre-rinse",
-      "Careful hand wash",
-      "No wheels, no protection — the honest basics",
+      "Ceramic coating rated for three years",
+      "Applied after the one-step correction so it bonds properly",
     ],
-    duration: { minutes: 20, label: "20 min" },
-    basePrice: 40,
+    duration: { minutes: 30, label: "30 min" },
+    basePrice: 200,
     largerVehiclesQuoted: false,
-    related: ["exterior-detail", "maintenance-detail"],
+    addOnFor: "paint-enhancement",
+    related: ["paint-enhancement", "clay-and-seal"],
   },
 ];
 
-/** The seven sellable Services (Add-ons excluded), in display order. */
+/** The sellable Services (Add-ons excluded), in display order. */
 export const sellableServices: Service[] = services.filter((s) => !s.addOnFor);
 
 export function serviceBySlug(slug: string): Service | undefined {
