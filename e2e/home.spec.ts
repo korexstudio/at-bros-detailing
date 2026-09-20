@@ -19,7 +19,6 @@ test.describe("Home — one page, in order", () => {
       "services",
       "add-ons",
       "work",
-      "problem",
       "book",
     ]);
   });
