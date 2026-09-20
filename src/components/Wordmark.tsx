@@ -39,7 +39,7 @@ export function Wordmark({
         lg ? "text-4xl" : "text-lg"
       }`}
     >
-      AT&nbsp;Bros<span className="text-accent">.</span>
+      AT&nbsp;Bros.
     </span>
   );
 
